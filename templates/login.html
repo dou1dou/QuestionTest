@@ -1,0 +1,46 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'app/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/reset.css' %}">
+    <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
+    <script src="{% static 'app/js/login.js' %}"></script>
+    <title>登录页面</title>
+</head>
+<body>
+    <div class="wrapper" style="background-image: url({% static 'app/img/background.webp' %})">
+        <form action="api/" method="post">
+            {% csrf_token %}
+            <div class="login-container">
+                <h3>登录</h3>
+                <div class="user_password">
+                    <div class="user">
+                        <label for="username">用户名:</label>
+                        <input type="text" name="username" id="username">
+                    </div>
+                    <div class="password">
+                        <label for="password">密码:</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <div class="button_css">
+                        <div class="button_css_left" id = 'button'>
+                            <button type="submit">登录</button>
+                        </div>
+                        <div class="button_css_right">
+                            <button type="button" id="goto-register">注册</button>
+                        </div>
+                    </div>
+                    <div class="forget_password">
+                        <a href="">忘记密码</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
