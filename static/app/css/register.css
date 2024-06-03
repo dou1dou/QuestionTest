@@ -6,7 +6,6 @@
     justify-content: center;
     align-items: center;
 
-    background-image: url("/photos/background.webp"); /* 替换为你的图片URL */
     background-size: cover; /* 覆盖整个元素 */
     background-position: center; /* 图片居中显示 */
     background-repeat: no-repeat; /* 不重复显示图片 */
