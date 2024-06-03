@@ -10,7 +10,7 @@ $(document).ready(function() {
         notice.hide();
 
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: "/register/api/user/",
             data: $("#register").serialize(),
             success: function(response) {

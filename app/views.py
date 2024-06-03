@@ -42,6 +42,7 @@ def login_api(request):
 
 
 def register_api(username, password, role_id):
+    print(username, password, role_id)
     connection = None
     cursor = None
     try:
