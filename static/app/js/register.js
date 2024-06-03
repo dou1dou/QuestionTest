@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("form").submit(function(e) {
+    $("#registerForm").submit(function(e) {
         e.preventDefault();
 
         const notice = $("#wrong-notice");
@@ -11,8 +11,8 @@ $(document).ready(function() {
 
         $.ajax({
             method: "POST",
-            url: "/register/api/user/",
-            data: $("#register").serialize(),
+            url: "register/api/user/",
+            data: $("#registerForm").serialize(),
             success: function(response) {
                 alert("注册成功");
                 window.location.href="/login";
