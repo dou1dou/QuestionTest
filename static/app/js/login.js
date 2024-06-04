@@ -24,6 +24,6 @@ $(document).ready(function() {
     })
 
     $(".forget_password").click(function () {
-        window.location.href = "/forgetpasswor/";
+        window.location.href = "/forgetpassword/";
     })
 })
