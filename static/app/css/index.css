@@ -151,10 +151,15 @@
     width: 100%;
     background-color:#aaaaaa;
     color:#212121;
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }
 
 .footer p{
-    font-size: 1.2vw;
+    font-size: 1.4vw;
+
 }
 
 
