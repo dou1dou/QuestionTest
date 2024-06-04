@@ -43,3 +43,9 @@ create table users
         foreign key (roleId) references roles (roleId)
 )
     comment '用户表';
+
+insert into roles (roleId, roleName) values (1, '管理员');
+insert into roles (roleId, roleName) values (2, '教师');
+insert into roles (roleId, roleName) values (3, '学生');
+
+insert into users (userName, password, roleId) values ('test_user', 'py123', 3);
