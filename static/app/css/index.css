@@ -70,6 +70,8 @@
 
     width:100vw;
 
+    margin-top:10vh;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,13 +121,13 @@
 }
 
 .prev {
-    left: 10vw;
+    left: 12vw;
     color: #ffffff;
     font-size: 2vw;
 }
 
 .next {
-    right: 10vw;
+    right: 12vw;
     color: #ffffff;
     font-size: 2vw;
 }
