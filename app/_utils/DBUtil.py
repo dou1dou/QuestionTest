@@ -24,7 +24,7 @@ class MysqlConnectionPool:
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "123456",
+    "password": "513022",
     "database": "question_test",
     "pool_size": 32
 }

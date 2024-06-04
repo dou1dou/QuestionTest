@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>欢迎</title>
+    <title>欢迎页</title>
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/index.js' %}"></script>
     <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
@@ -14,11 +14,29 @@
 <body>
     <div class="main-container">
         <div class="top-bar">
-            <div class="goto-button goto-login">登录</div>
-            <div class="goto-button goto-register">注册</div>
+            <div>
+                <p>欢迎使用！</p>
+            </div>
+            <div class="button-type">
+                <div class="goto-button goto-login">登录</div>
+                <div class="goto-button goto-register">注册</div> 
+            </div>
         </div>
-        <div class="content"></div>
-        <div class="foot"></div>
+        <div class="content">
+            <div class="image-container">
+                <img id="imageToChange" src="{% static 'app/img/shift1.jpg' %}" alt="change photo">
+                <div class="image-buttons">
+                    <button id="prevImageBtn" class="image-button prev"><</button>
+                    <button id="nextImageBtn" class="image-button next">></button> 
+                </div> 
+            </div>
+            <div class="introduce-container">
+                
+            </div>
+        </div>
+        <div class="foot">
+
+        </div>
     </div>
 </body>
 </html>
