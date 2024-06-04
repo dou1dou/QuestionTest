@@ -108,8 +108,31 @@ def question_get_api(request):
 
 
 def forget_password_api(request):
-    pass
+    if request.method == 'GET':
+        return JsonResponse({'err': 'Please try with POST method!'})
+    connection = None
+    cursor = None
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    if username is None or password is None:
+        return JsonResponse({'err': 'Please enter username'})
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute('select * from users where userName = %s', (username,))
+        if len(cursor.fetchall()) != 0:
+            cursor.execute("update users set password = %s where userName = %s", (username, password))
+            connection.commit()
+            return JsonResponse({"reset": "successful"})
+    except Exception as e:
+        print(e)
+        return JsonResponse({"reset": "failed"})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
 
 
 def forget_password(request):
-    pass
+    return render(request, 'forget_password.html')
