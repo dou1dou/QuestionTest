@@ -11,7 +11,7 @@ $(document).ready(function() {
 
         $.ajax({
             method: "POST",
-            url: "register/api/user/",
+            url: "/register/api/user/",
             data: $("#registerForm").serialize(),
             success: function(response) {
                 alert("注册成功");
