@@ -105,3 +105,11 @@ def question_get_api(request):
         response[i] = ';'.join(target_questions[choice][1:6])
         target_questions.pop(choice)
     return JsonResponse(response)
+
+
+def forget_password_api(request):
+    pass
+
+
+def forget_password(request):
+    pass
