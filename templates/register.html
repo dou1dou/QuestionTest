@@ -8,11 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'app/css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/register.css' %}">
+    <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/register.js' %}"></script>
     <title>登录页面</title>
 </head>
 <body>
-<div class="wrapper" style="background-image: url({% static 'app/img/background.webp' %});">
+<div class="wrapper" style="background-image: url({% static 'app/img/background.jpg' %});">
     <div class="login-container">
         <form action="api/user/" method="post" id="registerForm">
             {% csrf_token %}
@@ -31,6 +32,7 @@
                     <input type="password" name = 'require' id = 'password_two' placeholder="请确认密码">
                 </div>
                 <p id="wrong-notice" style="color: red; display: none; margin-top: 0; margin-bottom: 0">两次密码输入不一致</p>
+                <p id="password-weak-notice" style="color: red; display: none; margin-top: 0; margin-bottom: 0">密码过短</p>
                 <div class="button_css">
                     <button type="submit">注册</button>
                 </div>

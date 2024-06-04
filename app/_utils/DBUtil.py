@@ -22,9 +22,9 @@ class MysqlConnectionPool:
 
 # 创建连接池实例
 db_config = {
-    "host": "192.168.215.54",
-    "user": "Questions_testing",
-    "password": "134625",
+    "host": "localhost",
+    "user": "root",
+    "password": "123456",
     "database": "question_test",
     "pool_size": 32
 }

@@ -13,7 +13,7 @@
     <title>登录页面</title>
 </head>
 <body>
-    <div class="wrapper" style="background-image: url({% static 'app/img/background.webp' %})">
+    <div class="wrapper" style="background-image: url({% static 'app/img/background.jpg' %})">
         <form action="api/" method="post">
             {% csrf_token %}
             <div class="login-container">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="forget_password">
-                        <a href="">忘记密码</a>
+                        <a href="/forgetpassword/">忘记密码</a>
                     </div>
                 </div>
             </div>

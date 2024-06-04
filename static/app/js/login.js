@@ -20,6 +20,10 @@ $(document).ready(function() {
     });
 
     $("#goto-register").click(function() {
-        window.location.href = "/register";
+        window.location.href = "/register/";
+    })
+
+    $(".forget_password").click(function () {
+        window.location.href = "/forgetpassword/";
     })
 })
