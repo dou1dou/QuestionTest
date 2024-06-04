@@ -1,6 +1,7 @@
 .main-container {
-    display: flex;
-    width: 100%;
+    width: 100vw;
+
+    background-color: lightblue;
 }
 
 .main-container .top-bar {
@@ -57,15 +58,18 @@
 
 .content{
     width: 100%;
-    height: 100%;
 
     display: flex;
+    flex-direction: column;
     align-content: center;
     justify-content: center;
 }
 
 .image-container {
     position: relative;
+
+    width:100vw;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,15 +119,42 @@
 }
 
 .prev {
-    left: 2vw;
+    left: 10vw;
     color: #ffffff;
     font-size: 2vw;
 }
 
 .next {
-    right: 2vw;
+    right: 10vw;
     color: #ffffff;
     font-size: 2vw;
+}
+
+.introduce-container {
+    margin-top: 10vh;
+    width: 100%;
+    height: 80vh;
+
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+}
+
+.introduce-container h3 {
+    color: ghostwhite;
+    font-size: 2.2vw;
+}
+
+.foot{
+    height:8vh;
+    width: 100%;
+    background-color:#aaaaaa;
+    color:#212121;
+}
+
+.footer p{
+    font-size: 1.2vw;
 }
 
 

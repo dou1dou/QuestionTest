@@ -1,9 +1,9 @@
 let imageIndex = 0;
-const images = [
-    "static/app/img/shift1.jpg",
-     "static/app/img/shift2.jpg",
-    "static/app/img/shift3.jpg"
-];
+// const images = [
+//     "static/app/img/shift1.jpg",
+//      "static/app/img/shift2.jpg",
+//     "static/app/img/shift3.jpg"
+// ];
 $(document).ready(function() {
     $(".goto-login").click(function() {
         window.location.href = "/login/";
