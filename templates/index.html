@@ -9,6 +9,9 @@
     <title>欢迎页</title>
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/index.js' %}"></script>
+    <script>
+        
+    </script>
     <link rel="stylesheet" href="{% static 'app/css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
 </head>
@@ -16,7 +19,7 @@
     <div class="main-container">
         <div class="top-bar">
             <div>
-                <p>欢迎使用！</p>
+                <p>欢迎使用测试系统！</p>
             </div>
             <div class="button-type">
                 <div class="goto-button goto-login">登录</div>
@@ -25,7 +28,7 @@
         </div>
         <div class="content">
             <div class="image-container">
-                <img id="imageToChange" src="{% static 'app/img/background.jpg' %}" alt="change photo">
+                <img id="imageToChange" src="{% static "app/img/welcome3.png" %}" alt="change photo">
                 <div class="image-buttons">
                     <button id="prevImageBtn" class="image-button prev"><</button>
                     <button id="nextImageBtn" class="image-button next">></button>
@@ -33,9 +36,14 @@
             </div>
             <div class="introduce-container">
                 <h3>关于我们</h3>
-                <p></p>
-                <p></p>
-                <p></p>
+                <div class="introduce-us">
+                    <h4>我们的服务</h4>
+                    <p>我们提供在线测试服务，涵盖多个学科领域，满足不同用户的需求。同时，我们还提供个性化的测试报告，帮助用户深入分析自己的测试结果，找到提升的方向。此外，我们还设有用户社区，用户可以在这里分享自己的学习心得，交流学习经验，共同成长。</p>
+                </div>
+                <div class="introduce-us">
+                    <h4>我们的团队</h4>
+                    <p>我们的团队由一群热爱教育、充满激情的专业人士组成。他们不仅在各自领域有着深厚的专业知识，更具备丰富的教育经验。他们用心设计每一道题目，确保题目的科学性、严谨性和趣味性，让用户在测试的过程中既能学到知识，又能享受到学习的乐趣</p>
+                </div>
             </div>
         </div>
         <div class="foot">

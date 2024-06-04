@@ -18,6 +18,8 @@
 .main-container .top-bar p{
     font-size: 2.5vh;
     color:black;
+
+    margin-left:2vw;
 }
 
 .button-type{
@@ -148,6 +150,28 @@
     font-size: 2.2vw;
 }
 
+.introduce-container .introduce-us{
+    margin-top:4vw;
+    width:80vw;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.introduce-container .introduce-us h4{
+    color: #1b1b1b;
+    font-size: 1.9vw;
+    user-select: none;
+}
+
+.introduce-container .introduce-us p{
+    margin-top:2vw;
+    color: #1b1b1b;
+    font-size: 1.2vw;
+    user-select: none;
+}
+
 .foot{
     height:8vh;
     width: 100%;
@@ -157,11 +181,12 @@
     display: flex;
     align-content: center;
     justify-content: center;
+    user-select: none;
 }
 
 .footer p{
     font-size: 1.4vw;
-
+    user-select: none;
 }
 
 
