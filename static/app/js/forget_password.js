@@ -11,8 +11,8 @@ $(document).ready(function() {
 
         $.ajax({
             method: "POST",
-            url: "/forgetpassword/api",
-            data: $("#registerForm").serialize(),
+            url: "/forgetpassword/api/",
+            data: $("form").serialize(),
             success: function(response) {
                 alert("修改密码成功，返回登录");
                 window.location.href="/login";
