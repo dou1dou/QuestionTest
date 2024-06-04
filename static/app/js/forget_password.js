@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#registerForm").submit(function(e) {
+    $("form").submit(function(e) {
         e.preventDefault();
 
         const notice = $("#wrong-notice");
@@ -11,10 +11,10 @@ $(document).ready(function() {
 
         $.ajax({
             method: "POST",
-            url: "register/api/user/",
+            url: "/forgetpassword/api",
             data: $("#registerForm").serialize(),
             success: function(response) {
-                alert("注册成功");
+                alert("修改密码成功，返回登录");
                 window.location.href="/login";
             },
             error: function() {

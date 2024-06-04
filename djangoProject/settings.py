@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-_pwa2tjss*4=*vj=be$se=hb1jr@i-qqn=z31-7ti73@9e0kql
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # "192.168.215.181"
+]
 
 
 # Application definition
@@ -81,7 +83,7 @@ DATABASES = {
         'NAME': 'question_test',
         'USER': 'Questions_testing',
         'PASSWORD': '134625',
-        'HOST': '192.168.55.54',  # 如果数据库在本地，可以使用localhost
+        'HOST': '192.168.215.54',  # 如果数据库在本地，可以使用localhost
         'PORT': '3306',  # MySQL默认端口为3306
     }
 }
@@ -109,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh_cn'
 
 TIME_ZONE = 'UTC'
 
