@@ -1,27 +1,9 @@
 $(document).ready(function () {
-    $("#login-form").submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            type: "POST",
-            url: "login/",
-            data: $("#login-form").serialize(),
-            success: function(response){
-                let json = JSON.parse(JSON.stringify(response));
-                if(json.login) {
-                    $("#wrong-notice").hide()
-                    alert("登陆成功");
-                } else {
-                    $("#wrong-notice").show()
-                }
-            },
-            error: function(){
-                alert("请重试！")
-            }
-        });
+    $("#goto-login").click(function() {
+        window.location.href = "/login/";
     });
 
-    $("#register").click(function() {
-        window.location.href = "http://localhost:8000/register";
+    $("#goto-register").click(function() {
+        window.location.href = "/register/";
     })
 })

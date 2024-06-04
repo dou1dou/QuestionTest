@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,9 +6,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>欢迎</title>
+    <script src="{% static 'app/js/index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
 </head>
 <body>
-
+    <div class="main-container">
+        <div class="top-bar">
+            <div class="goto-button goto-login">登录</div>
+            <div class="goto-button goto-register">注册</div>
+        </div>
+        <div class="content"></div>
+        <div class="foot"></div>
+    </div>
 </body>
 </html>
