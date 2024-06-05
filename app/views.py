@@ -121,7 +121,7 @@ def forget_password_api(request):
         cursor = connection.cursor()
         cursor.execute('select * from users where userName = %s', (username,))
         if len(cursor.fetchall()) != 0:
-            cursor.execute("update users set password = %s where userName = %s", (username, password))
+            cursor.execute("update users set password = %s where userName = %s", (password, username))
             connection.commit()
             return JsonResponse({"reset": "successful"})
     except Exception as e:
