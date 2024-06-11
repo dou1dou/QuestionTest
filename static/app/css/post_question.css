@@ -10,7 +10,7 @@
 }
 
 .wrapper .submit-form form {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
     width: 40vw;
     height: 60vh;
     border-radius: 10px;
@@ -36,3 +36,27 @@
     margin-left: 3vw;
     margin-bottom: 1vw;
 }
+
+.wrapper .submit-form button {
+    margin-top: 1vw;
+    width: 10vw;
+    height: 3vw;
+
+    text-align: center;
+    background-color: forestgreen;
+
+    color: #fff;
+}
+
+label {
+  display: inline-block;
+  width: 6vw;
+  text-align: right;
+  margin-right: 3vw;
+}
+
+input[type="text"], input[type="password"] {
+  width: 13vw;
+  height:3vh;
+}
+
