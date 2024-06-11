@@ -184,3 +184,7 @@ def question_post_api(request):
 
 def question_post(request):
     return render(request, 'post_question.html')
+
+
+def homepage(request):
+    return render(request, 'homepage.html')
