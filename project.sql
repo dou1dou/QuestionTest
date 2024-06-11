@@ -7,15 +7,15 @@ create table objective_questions
 (
     Objective_question_id int          not null comment '客观题编号'
         primary key,
-    Description           varchar(255) not null comment '描述',
-    ChoiceA               varchar(128) not null comment '选项A',
-    ChoiceB               varchar(128) not null comment '选项B',
-    ChoiceC               varchar(128) not null comment '选项C',
-    ChoiceD               varchar(128) not null comment '选项D',
-    Answer                char         not null comment '答案',
-    Knowledge_points      varchar(18)  not null comment '知识点',
+    Description           varchar(255) null comment '描述',
+    ChoiceA               varchar(128) null comment '选项A',
+    ChoiceB               varchar(128)  null comment '选项B',
+    ChoiceC               varchar(128)  null comment '选项C',
+    ChoiceD               varchar(128) null comment '选项D',
+    Answer                varchar(4)   null comment '答案',
+    Knowledge_points      varchar(18)  null comment '知识点',
     Parse                 varchar(255) null comment '解析',
-    Difficulty            float        not null comment '难度系数'
+    Difficulty            float        null comment '难度系数'
 )
     comment '试题表';
 
