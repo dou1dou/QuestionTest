@@ -172,8 +172,10 @@ def question_post_api(request):
                        "Answer, Knowledge_points, Parse, Difficulty) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                        (max_id + 1, description, choice_a, choice_b, choice_c, choice_d, answer,
                         knowledge_point, parse, difficulty))
+        return JsonResponse({'insert': 'successful'})
     except Exception as e:
         print(e)
+        return JsonResponse({'insert': 'failed'})
     finally:
         if connection is not None:
             connection.close()
