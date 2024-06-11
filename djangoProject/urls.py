@@ -30,5 +30,7 @@ urlpatterns = [
     path('register/api/teacher/', views.register_api_teacher),
     path('register/api/admin/', views.register_api_admin),
     path('forgetpassword/api/', views.forget_password_api),
-    path('forgetpassword/', views.forget_password)
+    path('forgetpassword/', views.forget_password),
+    path('postquestion/api/', views.question_post_api),
+    path('postquestion/', views.question_post)
 ]

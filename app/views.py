@@ -141,7 +141,7 @@ def forget_password(request):
 def question_post_api(request):
     if request.method == 'GET':
         return JsonResponse({'err': 'Please try with POST method!'})
-    description = request.GET.get('description')
+    description = request.POST.get('description')
     choice_a = request.POST.get('choice_a')
     choice_b = request.POST.get('choice_b')
     choice_c = request.POST.get('choice_c')
@@ -153,8 +153,6 @@ def question_post_api(request):
     if (description is None or
             choice_a is None or
             choice_b is None or
-            choice_c is None or
-            choice_d is None or
             answer is None or
             knowledge_point is None or
             parse is None or
@@ -172,6 +170,7 @@ def question_post_api(request):
                        "Answer, Knowledge_points, Parse, Difficulty) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                        (max_id + 1, description, choice_a, choice_b, choice_c, choice_d, answer,
                         knowledge_point, parse, difficulty))
+        connection.commit()
         return JsonResponse({'insert': 'successful'})
     except Exception as e:
         print(e)
@@ -181,3 +180,7 @@ def question_post_api(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def question_post(request):
+    return render(request, 'post_question.html')
