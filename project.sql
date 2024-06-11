@@ -12,7 +12,7 @@ create table objective_questions
     ChoiceB               varchar(128)  null comment '选项B',
     ChoiceC               varchar(128)  null comment '选项C',
     ChoiceD               varchar(128) null comment '选项D',
-    Answer                char          null comment '答案',
+    Answer                varchar(4)   null comment '答案',
     Knowledge_points      varchar(18)  null comment '知识点',
     Parse                 varchar(255) null comment '解析',
     Difficulty            float        null comment '难度系数'
