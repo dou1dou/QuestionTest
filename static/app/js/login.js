@@ -8,7 +8,7 @@ $(document).ready(function() {
             data: $("form").serialize(),
             success: function(response) {
                 if(JSON.parse(JSON.stringify(response)).login) {
-                    alert("登陆成功")
+                    window.location.href = "/homepage/"
                 } else {
                     alert("用户名或密码错误")
                 }
