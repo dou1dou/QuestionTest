@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>这是测试界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'lib/normalize.css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
+    <script src="{% static 'app/js/yiyan.js' %}"></script>
+</head>
+<body>
+<div id="particles-js"></div>
+<div class="wrapper">
+    <div class="header">
+        <div class="theme">
+            <div class="title">
+                <div class="title_text">试题测试系统</div>
+            </div>
+            <div class="icon">
+                <div class="my_homepage">主页</div>
+                <div class="recommend">推荐</div>
+                <div class="objective_question">教学班</div>
+                <div class="Fill_in_the_blank_questions">题库</div>
+            </div>
+            <div class="chart">
+                <i class="far fa-user-circle"></i>
+            </div>
+        </div>
+        <div class="homepage">
+            <i class=""></i>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_left">
+            <p class="content_left_word">教学班信息</p>
+            <div class="report">
+                <div class="report1"></div>
+                <div class="report2"></div>
+                <div class="report3"></div>
+                <div class="report4"></div>
+                <div class="report5"></div>
+                <div class="report6"></div>
+                <div class="report7"></div>
+                <div class="report8"></div>
+                <div class="report9"></div>
+                <div class="report10"></div>
+                <div class="skip">展开更多</div>
+            </div>
+        </div>
+        <div class="content_center">
+            <p class="content_center_word">每日一言</p>
+            <div class="date">
+                <div class="date1">
+                    <p id="week1" class="week1"></p>
+                    <p id="date1" class="day1"></p>
+                </div>
+                <div class="date2">
+                    <p id="week2" class="week2"></p>
+                    <p id="date2" class="day2"></p>
+                </div>
+                <div class="date3">
+                    <p id="week3" class="week3"></p>
+                    <p id="date3" class="day3"></p>
+                </div>
+                <div class="date4">
+                    <p id="week4" class="week4"></p>
+                    <p id="date4" class="day4"></p>
+                </div>
+                <div class="date5">
+                    <p id="week5" class="week5"></p>
+                    <p id="date5" class="day5"></p>
+                </div>
+                <div class="date6">
+                    <p id="week6" class="week6"></p>
+                    <p id="date6" class="day6"></p>
+                </div>
+                <div class="date7">
+                    <p id="week7" class="week7"></p>
+                    <p id="date7" class="day7"></p>
+                </div>
+            </div>
+            <div id="yiyan"></div>
+        </div>
+        <div class="content_right">
+            <div class="content_right_top">
+                <p class="top_word">能力分析</p>
+            </div>
+            <div class="content_right_bottom">
+                <p class="bottom_word">讨论</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+    <script src='{% static 'app/js/particles.js' %}'></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
+    <script src="{% static 'app/js/getDate.js' %}"></script>
+<script>
+    const dates = getFutureDates();
+    const date1 = document.getElementById("date1");
+    date1.innerHTML = dates[0].date;
+    const week1 = document.getElementById("week1");
+    week1.innerHTML = dates[0].dayOfWeek;
+    const date2 = document.getElementById("date2");
+    date2.innerHTML = dates[1].date;
+    const week2 = document.getElementById("week2");
+    week2.innerHTML = dates[1].dayOfWeek;
+    const date3 = document.getElementById("date3");
+    date3.innerHTML = dates[2].date;
+    const week3 = document.getElementById("week3");
+    week3.innerHTML = dates[2].dayOfWeek;
+    const date4 = document.getElementById("date4");
+    date4.innerHTML = dates[3].date;
+    const week4 = document.getElementById("week4");
+    week4.innerHTML = dates[3].dayOfWeek;
+    const date5 = document.getElementById("date5");
+    date5.innerHTML = dates[4].date;
+    const week5 = document.getElementById("week5");
+    week5.innerHTML = dates[4].dayOfWeek;
+    const date6 = document.getElementById("date6");
+    date6.innerHTML = dates[5].date;
+    const week6 = document.getElementById("week6");
+    week6.innerHTML = dates[5].dayOfWeek;
+    const date7 = document.getElementById("date7");
+    date7.innerHTML = dates[6].date;
+    const week7 = document.getElementById("week7");
+    week7.innerHTML = dates[6].dayOfWeek;
+</script>
+</html>

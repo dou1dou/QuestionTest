@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'question_test',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': '125936jH',
         'HOST': 'localhost',  # 如果数据库在本地，可以使用localhost
         'PORT': '3306',  # MySQL默认端口为3306
     }
