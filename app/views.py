@@ -5,7 +5,6 @@ from django.shortcuts import render
 
 from ._utils import DBUtil, QuestionUtil
 
-
 # Create your views here.
 
 
@@ -18,22 +17,35 @@ def login(request):
 
 
 def login_api(request):
+    # 负责登陆验证的api
     connection = None
     cursor = None
     try:
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
+            cookie = request.COOKIES.get('login', None)
             if username is None or password is None:
                 return JsonResponse({'err': 'information is null'})
             connection = DBUtil.get_connection('user_pool')
             cursor = connection.cursor()
             cursor.execute('select * from users where userName = %s and password = %s', (username, password))
-            return JsonResponse({'login': len(cursor.fetchall()) != 0})
+            if len(cursor.fetchall()) != 0:
+                # 登陆成功的逻辑操作
+                response = JsonResponse({'login': True})
+                if cookie is None:
+                    response.set_cookie('login', username + password, max_age=86400 * 7)
+                    cursor.execute("update users set lastLoginCookie = %s where userName = %s",
+                                   (username + password, username))
+                    connection.commit()
+                return response
+            else:
+                return JsonResponse({'login': False})
         else:
             return JsonResponse({'login': False})
     except Exception as e:
         print(e)
+        return JsonResponse({'login': 'db err!'})
     finally:
         if connection is not None:
             connection.close()
@@ -188,3 +200,9 @@ def question_post(request):
 
 def homepage(request):
     return render(request, 'homepage.html')
+
+
+def homepage_info_api(request):
+    cookie = request.COOKIES.get('login')
+    if cookie is None:
+        return JsonResponse({'hasLogin': False})
