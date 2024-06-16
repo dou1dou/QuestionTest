@@ -15,7 +15,7 @@ create table objective_questions
     Answer                varchar(4)   null comment '答案',
     Knowledge_points      varchar(18)  null comment '知识点',
     Parse                 varchar(255) null comment '解析',
-    Difficulty            float        null comment '难度系数'
+    Difficulty            int          null comment '难度系数'
 )
     comment '试题表';
 
