@@ -92,6 +92,40 @@ create table practice_record
 )
     comment '刷题记录';
 
+drop table if exists classroom_message;
+create table classroom_message
+(
+    message_id   int auto_increment comment '信息编号'
+        primary key,
+    publisher    varchar(32)   not null comment '信息发布人',
+    classroom_id int           not null comment '所属教学班编号',
+    content      varchar(1024) not null comment '消息内容',
+    constraint classroom_message_classroom_class_id_fk
+        foreign key (classroom_id) references classroom (class_id),
+    constraint classroom_message_users_userName_fk
+        foreign key (publisher) references users (userName)
+            on update cascade on delete cascade
+)
+    comment '教学班信息表';
+
+drop table if exists classroom_message;
+create table classroom_message
+(
+    message_id   int auto_increment comment '信息编号'
+        primary key,
+    publisher    varchar(32)   not null comment '信息发布人',
+    classroom_id int           not null comment '所属教学班编号',
+    content      varchar(1024) not null comment '消息内容',
+    constraint classroom_message_classroom_class_id_fk
+        foreign key (classroom_id) references classroom (class_id),
+    constraint classroom_message_users_userName_fk
+        foreign key (publisher) references users (userName)
+            on update cascade on delete cascade
+)
+    comment '教学班信息表';
+
+
+
 
 insert into roles (roleId, roleName) values (1, '管理员');
 insert into roles (roleId, roleName) values (2, '教师');
