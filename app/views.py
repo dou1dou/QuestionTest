@@ -206,3 +206,7 @@ def homepage_info_api(request):
     cookie = request.COOKIES.get('login')
     if cookie is None:
         return JsonResponse({'hasLogin': False})
+
+
+def questions(request):
+    return render(request, 'questions.html')

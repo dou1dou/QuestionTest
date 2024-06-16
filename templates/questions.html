@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>题库界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'lib/normalize.css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'app/css/questions.css' %}">
+</head>
+<body>
+<div id="particles-js"></div>
+<div class="wrapper">
+    <div class="header">
+        <div class="theme">
+            <div class="title">
+                <div class="title_text">试题测试系统</div>
+            </div>
+            <div class="icon">
+                <div class="my_homepage">主页</div>
+                <div class="recommend">推荐</div>
+                <div class="teaching_classes">教学班</div>
+                <div class="questions">题库</div>
+            </div>
+            <div class="chart">
+                <i class="far fa-user-circle"></i>
+            </div>
+        </div>
+        <div class="homepage">
+            <i class=""></i>
+        </div>
+    </div>
+</div>
+
+</body>
+    <script src='{% static 'app/js/particles.js' %}'></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
+</html>

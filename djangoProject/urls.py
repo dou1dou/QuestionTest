@@ -33,5 +33,6 @@ urlpatterns = [
     path('forgetpassword/', views.forget_password),
     path('postquestion/api/', views.question_post_api),
     path('postquestion/', views.question_post),
-    path('homepage/', views.homepage)
+    path('homepage/', views.homepage),
+    path('questions/', views.questions)
 ]
