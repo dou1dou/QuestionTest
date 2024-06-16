@@ -316,6 +316,8 @@ def get_practice_info(request):
                 'question_choice_d': question_info[5],
                 'answer': question_info[6],
                 'knowledge_point': question_info[7],
+                'choose': res[3],
+                'pass': res[4],
             })
         return JsonResponse(response)
     except Exception as e:
