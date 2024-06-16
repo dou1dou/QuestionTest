@@ -34,5 +34,7 @@ urlpatterns = [
     path('postquestion/api/', views.question_post_api),
     path('postquestion/', views.question_post),
     path('homepage/', views.homepage),
-    path('questions/', views.questions)
+    path('questions/', views.questions),
+    path('recommend/', views.recommend),
+    path('teaching_classes/', views.teaching_classes)
 ]

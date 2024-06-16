@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from ._utils import DBUtil, QuestionUtil
 
+
 # Create your views here.
 
 
@@ -210,3 +211,11 @@ def homepage_info_api(request):
 
 def questions(request):
     return render(request, 'questions.html')
+
+
+def recommend(request):
+    return render(request, 'recommend.html')
+
+
+def teaching_classes(request):
+    return render(request, 'teaching_classes.html')
