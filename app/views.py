@@ -211,6 +211,30 @@ def homepage_info_api(request):
     cookie = request.COOKIES.get('login')
     if cookie is None:
         return JsonResponse({'hasLogin': False})
+    user_info = {}
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        res = res[0]
+        user_info['user_name'] = res[0]
+        user_info['user_password'] = res[1]
+        user_info['user_role_id'] = res[2]
+        user_info['hasLogin'] = True
+        return JsonResponse(user_info)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'hasLogin': False})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
 
 
 def questions(request):

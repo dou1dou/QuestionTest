@@ -36,5 +36,6 @@ urlpatterns = [
     path('homepage/', views.homepage),
     path('questions/', views.questions),
     path('recommend/', views.recommend),
-    path('teaching_classes/', views.teaching_classes)
+    path('teaching_classes/', views.teaching_classes),
+    path('homepage/api/', views.homepage_info_api),
 ]

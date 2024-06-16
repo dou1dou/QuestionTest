@@ -35,17 +35,53 @@ create table roles
 drop table if exists users;
 create table users
 (
-    userName varchar(18) not null comment '用户名'
+    userName        varchar(18) not null comment '用户名'
         primary key,
-    password varchar(18) not null comment '密码',
-    roleId   int         not null comment '角色',
+    password        varchar(18) not null comment '密码',
+    roleId          int         not null comment '角色',
+    lastLoginCookie varchar(32) null comment '上次登录的cookie',
+    classroom       varchar(32) null comment '教学班名称',
+    real_name       varchar(16) null comment '实名信息',
     constraint users_roles_roleId_fk
         foreign key (roleId) references roles (roleId)
 )
     comment '用户表';
+
+drop table if exists course;
+create table course
+(
+    course_id   int auto_increment comment '课程编号',
+    course_name varchar(32) not null comment '课程名称',
+    constraint course_pk
+        primary key (course_id),
+    constraint course_pk_2
+        unique (course_name)
+)
+    comment '课程信息表';
+
+drop table if exists classroom;
+create table classroom
+(
+    class_id         int auto_increment comment '教学班编号',
+    course_id        int         null comment '课程编号',
+    class_name       varchar(32) not null comment '教学班名称',
+    teacher_username varchar(32) not null comment '教师用户名',
+    constraint classroom_pk
+        primary key (class_id),
+    constraint classroom_course_course_id_fk
+        foreign key (course_id) references course (course_id)
+            on update cascade on delete set null,
+    constraint classroom_users_userName_fk
+        foreign key (teacher_username) references users (userName)
+            on update cascade on delete cascade
+);
 
 insert into roles (roleId, roleName) values (1, '管理员');
 insert into roles (roleId, roleName) values (2, '教师');
 insert into roles (roleId, roleName) values (3, '学生');
 
 insert into users (userName, password, roleId) values ('test_user', 'py123', 3);
+
+insert into course (course_name) values ('Python');
+insert into course (course_name) values ('C');
+insert into course (course_name) values ('Java');

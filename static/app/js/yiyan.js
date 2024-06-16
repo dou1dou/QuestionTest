@@ -1,7 +1,21 @@
 $(document).ready(function() {
+    $.ajax({
+        url: "/homepage/api/",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            if(!data['hasLogin']) {
+                window.location.href = "/login/";
+                return;
+            }
+
+            alert(data['user_name'])
+        }
+    })
+
+
     const yiyan = $("#yiyan");
     let author, content, date, from, pic_url;
-
     $.ajax({
         url: "https://api.oioweb.cn/api/common/yiyan",
         method: "GET",
