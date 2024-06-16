@@ -105,8 +105,12 @@ def question_get_api(request):
         return JsonResponse({'err': 'Please try with GET method! '})
     limit = request.GET.get('limit')
     difficulty = request.GET.get('difficulty', None)
-    questions = QuestionUtil.get_all_questions()
-    target_questions = [q for q in questions if questions[-1] == difficulty] if difficulty is not None else questions
+    point = request.GET.get('knowledge_point', None)
+    _questions = QuestionUtil.get_all_questions()
+    target_questions = [q for q in _questions if _questions[-1] == difficulty] \
+        if difficulty is not None else _questions
+    target_questions = [q for q in target_questions if _questions[-3] == point] \
+        if point is not None else target_questions
     if len(target_questions) < limit:
         response = {}
         for i in range(len(target_questions)):
