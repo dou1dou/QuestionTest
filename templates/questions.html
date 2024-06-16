@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <link rel="stylesheet" href="{% static 'app/css/questions.css' %}">
+    <script src="{% static '/app/js/get-questions.js' %}"> </script>
 </head>
 <body>
 <div id="particles-js"></div>
@@ -30,7 +31,26 @@
             </div>
         </div>
         <div class="homepage">
-            <i class=""></i>
+            <div class = 'button-css'>
+                 <button data-knowledge-point="null">全部题目</button>
+                <button data-knowledge-point="java">java</button>
+                <button data-knowledge-point="python">python</button>
+                <button data-knowledge-point="c语言">c语言</button>
+            </div>
+            <div class = 'choices-type'>
+                <label for="difficulty">选择题目难度：</label>
+                <select id="difficulty" name="difficulty">
+                  <option value="1">简单</option>
+                  <option value="2">中等</option>
+                  <option value="3">困难</option>
+                </select>
+            </div>
+            <div class="body">
+                <div class="display-questions" id="questions">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -103,23 +103,25 @@ def register(request):
 def question_get_api(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method! '})
-    limit = request.GET.get('limit')
+    limit = int(request.GET.get('limit', 20))  # 将 limit 转换为整数
     difficulty = request.GET.get('difficulty', None)
     point = request.GET.get('knowledge_point', None)
     _questions = QuestionUtil.get_all_questions()
-    target_questions = [q for q in _questions if _questions[-1] == difficulty] \
-        if difficulty is not None else _questions
-    target_questions = [q for q in target_questions if _questions[-3] == point] \
-        if point is not None else target_questions
-    if len(target_questions) < limit:
-        response = {}
-        for i in range(len(target_questions)):
-            response[i] = ';'.join(target_questions[i][1:6])
-            return JsonResponse(response)
+
+    # 使用列表推导式简化筛选逻辑
+    target_questions = [q for q in _questions if
+                        (difficulty is None or q[-1] == difficulty) and (point is None or q[-3] == point)]
+
+    # 检查 target_questions 是否为空或 limit 是否过大
+    if len(target_questions) == 0:
+        return JsonResponse({'error': '没有找到符合条件的题目'})
+
+    actual_limit = min(limit, len(target_questions))  # 确保 limit 不超过题目数量
+
     response = {}
-    for i in range(limit):
+    for i in range(actual_limit):
         choice = random.randint(0, len(target_questions) - 1)
-        response[i] = ';'.join(target_questions[choice][1:6])
+        response[i] = target_questions[choice][0:10]
         target_questions.pop(choice)
     return JsonResponse(response)
 
