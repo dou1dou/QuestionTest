@@ -76,6 +76,23 @@ create table classroom
             on update cascade on delete cascade
 );
 
+drop table if exists practice_record;
+create table practice_record
+(
+    record_id   int auto_increment comment '记录编号',
+    question_id int         not null comment '题目编号',
+    username    varchar(32) not null comment '刷题用户名',
+    choices     varchar(4)  not null comment '做题选项',
+    constraint practice_record_pk
+        primary key (record_id),
+    constraint practice_record_objective_questions_Objective_question_id_fk
+        foreign key (question_id) references objective_questions (Objective_question_id),
+    constraint practice_record_users_userName_fk
+        foreign key (username) references users (userName)
+)
+    comment '刷题记录';
+
+
 insert into roles (roleId, roleName) values (1, '管理员');
 insert into roles (roleId, roleName) values (2, '教师');
 insert into roles (roleId, roleName) values (3, '学生');

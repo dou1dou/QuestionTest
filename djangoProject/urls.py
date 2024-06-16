@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/api/', views.login_api),
     path('register/api/user/', views.register_api_user),
     path('register/', views.register),
+    path('register/teacher/', views.register_teacher),
     path('register/api/teacher/', views.register_api_teacher),
     path('register/api/admin/', views.register_api_admin),
     path('forgetpassword/api/', views.forget_password_api),
@@ -37,5 +38,7 @@ urlpatterns = [
     path('questions/', views.questions),
     path('recommend/', views.recommend),
     path('teaching_classes/', views.teaching_classes),
-    path('homepage/api/', views.homepage_info_api),
+    path('info/personal/api', views.get_personal_info),
+    path('info/class/api/', views.get_class_info),
+    path('info/practice/api/', views.get_practice_info),
 ]

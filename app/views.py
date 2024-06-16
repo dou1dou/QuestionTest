@@ -207,7 +207,7 @@ def homepage(request):
     return render(request, 'homepage.html')
 
 
-def homepage_info_api(request):
+def get_personal_info(request):
     cookie = request.COOKIES.get('login')
     if cookie is None:
         return JsonResponse({'hasLogin': False})
@@ -247,3 +247,82 @@ def recommend(request):
 
 def teaching_classes(request):
     return render(request, 'teaching_classes.html')
+
+
+def register_teacher(request):
+    return render(request, 'register_teacher.html')
+
+
+def get_class_info(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    if cookie is None:
+        return JsonResponse({'hasLogin': False})
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        user_name = res[0][0]
+        cursor.execute("select * from classroom where teacher_username = %s", (user_name,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'info': 'no data'})
+        return JsonResponse({'info': res})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_practice_info(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    if cookie is None:
+        return JsonResponse({'hasLogin': False})
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute('select * from practice_record where username = %s', (username,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'info': 'no data'})
+        response = {'info': []}
+        for record in res:
+            cursor.execute("select * from objective_questions where Objective_question_id = %s", (record[1],))
+            question_info = cursor.fetchall()[0]
+            response['info'].append({
+                'question_description': question_info[1],
+                'question_choice_a': question_info[2],
+                'question_choice_b': question_info[3],
+                'question_choice_c': question_info[4],
+                'question_choice_d': question_info[5],
+                'answer': question_info[6],
+                'knowledge_point': question_info[7],
+            })
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
