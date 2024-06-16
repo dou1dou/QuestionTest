@@ -269,10 +269,15 @@ def get_class_info(request):
         if len(res) == 0:
             return JsonResponse({'hasLogin': False})
         user_name = res[0][0]
-        cursor.execute("select * from classroom where teacher_username = %s", (user_name,))
+        cursor.execute("select classroom from users where userName = %s", (user_name,))
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'info': 'no data'})
+        response = {'info': []}
+        for r in res:
+            cursor.execute("select class_name, teacher_username from classroom where class_id = %s", (r[0],))
+            cur = cursor.fetchall()
+            response['info'].append({'class_name': cur[0][0], 'teacher_username': cur[0][1]})
         return JsonResponse({'info': res})
     except Exception as e:
         print(e)
