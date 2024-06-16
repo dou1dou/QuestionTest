@@ -38,7 +38,8 @@ urlpatterns = [
     path('questions/', views.questions),
     path('recommend/', views.recommend),
     path('teaching_classes/', views.teaching_classes),
-    path('info/personal/api', views.get_personal_info),
+    path('info/personal/api/', views.get_personal_info),
     path('info/class/api/', views.get_class_info),
     path('info/practice/api/', views.get_practice_info),
+    path('personal/', views.personal)
 ]

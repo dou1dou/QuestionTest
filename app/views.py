@@ -387,3 +387,7 @@ def get_solved_homework_numer(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def personal(request):
+    return render(request, 'personal.html')

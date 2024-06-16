@@ -40,5 +40,9 @@ $(document).ready(function() {
         error: function() {
             alert("Internet Err! ")
         }
+    });
+
+    $(".chart").click(function() {
+        window.location.href = "/personal/"
     })
 })
