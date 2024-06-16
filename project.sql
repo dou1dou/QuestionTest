@@ -125,6 +125,25 @@ create table classroom_message
 )
     comment '教学班信息表';
 
+drop table if exists homework;
+create table homework
+(
+    homework_id  int auto_increment comment '作业编号'
+        primary key,
+    question_id  int         not null comment '作业对应的问题编号',
+    publisher    varchar(32) null comment '发布人',
+    classroom_id int         null,
+    publish_time datetime    not null comment '作业发布时间',
+    cutoff_time  datetime    not null comment '作业截止时间',
+    constraint homework_classroom_class_id_fk
+        foreign key (classroom_id) references classroom (class_id),
+    constraint homework_objective_questions_Objective_question_id_fk
+        foreign key (question_id) references objective_questions (Objective_question_id),
+    constraint homework_users_userName_fk
+        foreign key (publisher) references users (userName)
+            on update cascade on delete set null
+)
+    comment '作业表';
 
 
 

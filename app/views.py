@@ -333,3 +333,57 @@ def get_practice_info(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def get_solved_question_numer(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        user_name = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s", (user_name,))
+        res = cursor.fetchall()
+        return JsonResponse({'all': len(QuestionUtil.get_all_questions()), 'solved': int(res[0][0])})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_solved_homework_numer(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select classroom from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        classroom_id = res[0][0]
+        cursor.execute("select count(*) from homework where classroom_id = %s", (classroom_id,))
+        res = cursor.fetchall()
+        return JsonResponse({'all': res[0][0], 'solved': int(res[0][0])})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': '查询失败'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
