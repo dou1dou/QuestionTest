@@ -30,7 +30,7 @@ def login_api(request):
                 return JsonResponse({'err': 'information is null'})
             connection = DBUtil.get_connection('user_pool')
             cursor = connection.cursor()
-            cursor.execute('select * from users where userName = %s and password = %s', (username, password))
+            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0', (username, password))
             if len(cursor.fetchall()) != 0:
                 # 登陆成功的逻辑操作
                 response = JsonResponse({'login': True})
@@ -61,7 +61,7 @@ def register_api(username, password, role_id):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute('select * from users where userName = %s', (username,))
+        cursor.execute('select * from users where userName = %s and deleted = 0', (username,))
         if len(cursor.fetchall()) != 0:
             return JsonResponse({'err': 'user name already exists'})
         cursor.execute('insert into users (userName, password, roleId) values (%s, %s, %s)',
@@ -136,7 +136,7 @@ def forget_password_api(request):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute('select * from users where userName = %s', (username,))
+        cursor.execute('select * from users where userName = %s and deleted = 0', (username,))
         if len(cursor.fetchall()) != 0:
             cursor.execute("update users set password = %s where userName = %s", (password, username))
             connection.commit()
@@ -217,7 +217,7 @@ def get_personal_info(request):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        cursor.execute('select * from users where lastLoginCookie = %s and deleted = 0', (cookie,))
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'hasLogin': False})
@@ -264,12 +264,12 @@ def get_class_info(request):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        cursor.execute('select * from users where lastLoginCookie = %s and deleted = 0', (cookie,))
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'hasLogin': False})
         user_name = res[0][0]
-        cursor.execute("select classroom from users where userName = %s", (user_name,))
+        cursor.execute("select classroom from users where userName = %s and deleted = 0", (user_name,))
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'info': 'no data'})
@@ -300,7 +300,7 @@ def get_practice_info(request):
     try:
         connection = DBUtil.get_connection('question_pool')
         cursor = connection.cursor()
-        cursor.execute('select * from users where lastLoginCookie = %s', (cookie,))
+        cursor.execute('select * from users where lastLoginCookie = %s and deleted = 0', (cookie,))
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'hasLogin': False})

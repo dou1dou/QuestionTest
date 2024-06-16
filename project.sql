@@ -31,21 +31,22 @@ create table roles
     comment '角色表';
 
 
--- auto-generated definition
 drop table if exists users;
 create table users
 (
-    userName        varchar(18) not null comment '用户名'
+    userName        varchar(18)   not null comment '用户名'
         primary key,
-    password        varchar(18) not null comment '密码',
-    roleId          int         not null comment '角色',
-    lastLoginCookie varchar(32) null comment '上次登录的cookie',
-    classroom       varchar(32) null comment '教学班名称',
-    real_name       varchar(16) null comment '实名信息',
+    password        varchar(18)   not null comment '密码',
+    roleId          int           not null comment '角色',
+    lastLoginCookie varchar(32)   null comment '上次登录的cookie',
+    classroom       varchar(32)   null comment '教学班名称',
+    real_name       varchar(16)   null comment '实名信息',
+    deleted         int default 0 not null comment '是否申请注销，申请注销为1，否则为0',
     constraint users_roles_roleId_fk
         foreign key (roleId) references roles (roleId)
 )
     comment '用户表';
+
 
 drop table if exists course;
 create table course
