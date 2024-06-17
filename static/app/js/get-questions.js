@@ -95,4 +95,8 @@ function updateQuestions() {
   });
 
   updateQuestions();
+
+  $(".chart").click(function (){
+      window.location.href = "/personal/"
+  })
 });
