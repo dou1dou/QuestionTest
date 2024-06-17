@@ -37,5 +37,10 @@ $(document).ready(function () {
 
     $(".my_homepage").click(function (){
         window.location.href = "/homepage/"
-    })
+    });
+
+    $(".questions").click(function (){
+        window.location.href = "/questions/"
+    });
 })
+
