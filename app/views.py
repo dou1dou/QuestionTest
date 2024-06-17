@@ -34,11 +34,10 @@ def login_api(request):
             if len(cursor.fetchall()) != 0:
                 # 登陆成功的逻辑操作
                 response = JsonResponse({'login': True})
-                if cookie is None:
-                    response.set_cookie('login', username + password, max_age=86400 * 7)
-                    cursor.execute("update users set lastLoginCookie = %s where userName = %s",
+                response.set_cookie('login', username + password, max_age=86400 * 7)
+                cursor.execute("update users set lastLoginCookie = %s where userName = %s",
                                    (username + password, username))
-                    connection.commit()
+                connection.commit()
                 return response
             else:
                 return JsonResponse({'login': False})
@@ -228,7 +227,7 @@ def get_personal_info(request):
         res = res[0]
         user_info['user_name'] = res[0]
         user_info['user_password'] = res[1]
-        user_info['user_role_id'] = res[2]
+        user_info['user_role_id'] = '学生' if res[2] == 3 else '老师' if res[2] == 2 else '管理员'
         user_info['hasLogin'] = True
         return JsonResponse(user_info)
     except Exception as e:
