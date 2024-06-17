@@ -106,6 +106,8 @@ def question_get_api(request):
     limit = int(request.GET.get('limit', 20))  # 将 limit 转换为整数
     difficulty = int(request.GET.get('Difficulty', -1))
     point = request.GET.get('Knowledge_points', None)
+    if point == 'null' or len(point) == 0:
+        point = None
     _questions = QuestionUtil.get_all_questions()
 
     # 使用列表推导式简化筛选逻辑
