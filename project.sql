@@ -145,6 +145,43 @@ create table homework
 )
     comment '作业表';
 
+drop table if exists discussion;
+create table discussion
+(
+    discussion_id int auto_increment comment '讨论信息编号'
+        primary key,
+    publisher     varchar(32)   not null comment '发布人',
+    class_id      int           not null comment '消息所属教学班编号',
+    content       varchar(1024) not null comment '讨论内容',
+    constraint discussion_classroom_class_id_fk
+        foreign key (class_id) references classroom (class_id),
+    constraint discussion_users_userName_fk
+        foreign key (publisher) references users (userName)
+            on update cascade on delete cascade
+)
+    comment '讨论信息表';
+
+drop table if exists student_homework;
+create table student_homework
+(
+    stu_name    varchar(32)   not null comment '学生姓名',
+    homework_id int           not null comment '作业编号',
+    finished    int default 0 not null comment '是否完成，完成为1，否则为0',
+    constraint student_homework_homework_homework_id_fk
+        foreign key (homework_id) references homework (homework_id),
+    constraint student_homework_users_userName_fk
+        foreign key (stu_name) references users (userName)
+)
+    comment '学生信息和作业联合查询表';
+
+
+create trigger sync_update_student_homework after insert on homework for each row
+    begin
+        set @classroom = new.classroom_id;
+        set @homework_id = new.homework_id;
+        insert into student_homework (stu_name, homework_id)
+            select users.userName, @homework_id from users where classroom_id = @classroom;
+    end;
 
 
 insert into roles (roleId, roleName) values (1, '管理员');
