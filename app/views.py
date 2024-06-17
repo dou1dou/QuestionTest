@@ -104,8 +104,8 @@ def question_get_api(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method! '})
     limit = int(request.GET.get('limit', 20))  # 将 limit 转换为整数
-    difficulty = request.GET.get('difficulty', None)
-    point = request.GET.get('knowledge_point', None)
+    difficulty = int(request.GET.get('Difficulty', -1))
+    point = request.GET.get('Knowledge_points', None)
     _questions = QuestionUtil.get_all_questions()
 
     # 使用列表推导式简化筛选逻辑
