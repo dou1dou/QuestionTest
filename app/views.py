@@ -392,5 +392,67 @@ def get_solved_homework_numer(request):
             cursor.close()
 
 
+def store_practice_info(request):
+    if request.method == "GET":
+        return JsonResponse({'err': 'please try with POST method!'})
+    question_id = request.POST.get('question_id')
+    correct = request.POST.get('correct')
+    choices = request.POST.get('choices')
+    cookie = request.COOKIES.get('login')
+
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("insert into practice_record (question_id, username, choices, pass) values (%s, %s, %s, %s)",
+                       (question_id, username, choices, correct))
+        connection.commit()
+        return JsonResponse({'info': 'success'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
 def personal(request):
     return render(request, 'personal.html')
+
+
+def get_correct_rate(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select username from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s", (username,))
+        total = cursor.fetchall()[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0", (username,))
+        correct = cursor.fetchall()[0][0]
+        return JsonResponse({"total": total, "correct": correct})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
