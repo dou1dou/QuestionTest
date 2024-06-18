@@ -82,6 +82,8 @@ def register_api_user(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     role_id = request.POST.get('role-id', 3)
+    if role_id != 1 and role_id != 2 and role_id != 3:
+        role_id = 3
     return register_api(username, password, role_id)
 
 
