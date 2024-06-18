@@ -339,7 +339,7 @@ def get_practice_info(request):
             cursor.close()
 
 
-def get_solved_question_numer(request):
+def get_solved_question_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -366,7 +366,7 @@ def get_solved_question_numer(request):
             cursor.close()
 
 
-def get_solved_homework_numer(request):
+def get_solved_homework_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
     cookie = request.COOKIES.get('login')

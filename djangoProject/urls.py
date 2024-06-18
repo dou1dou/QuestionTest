@@ -45,5 +45,4 @@ urlpatterns = [
     path('personal/', views.personal),
     path('questions/api/', views.question_get_api),
     path('info/personal/get_solved_question_number/api/', views.get_solved_question_number),
-    path('test/', views.test),
 ]
