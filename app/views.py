@@ -2,6 +2,7 @@ import random
 
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from ._utils import DBUtil, QuestionUtil
 
@@ -392,6 +393,7 @@ def get_solved_homework_numer(request):
             cursor.close()
 
 
+@csrf_exempt
 def store_practice_info(request):
     if request.method == "GET":
         return JsonResponse({'err': 'please try with POST method!'})
