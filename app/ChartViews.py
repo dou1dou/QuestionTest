@@ -6,7 +6,7 @@ import pyecharts.options as opts
 p = (
     Pie().add(
         series_name="完成占比",
-        data_pair=[["总题量", 1], ["已完成", 0.1]],
+        data_pair=[["截止已完成", 1], ["截止未完成", 0.1]],
         radius="35%",
         center=["50%", "50%"],
     ).set_global_opts(

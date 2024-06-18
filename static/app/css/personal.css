@@ -354,21 +354,21 @@
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-2 .circle-content2 .circle-content2-basic{
-    width: 10vw;
+    width: 25vw;
     height: 10vw;
-    border-radius: 15vw;
-    background: #c6c6ce;
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-2 .circle-content2 .circle-content2-word{
     font-size: 2vw;
-    margin-top: -7vw;
+    margin-top: -17vw;
     color: white;
+    z-index: 2;
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-2 .circle-content2 .circle-content2-sum{
     font-size: 1.5vw;
     margin-top: 0.3vw;
+    z-index: 2;
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-3 .circle-content3{
@@ -380,21 +380,21 @@
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-3 .circle-content3 .circle-content3-basic{
-    width: 10vw;
+    width: 25vw;
     height: 10vw;
-    border-radius: 15vw;
-    background: #c6c6ce;
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-3 .circle-content3 .circle-content3-word{
     font-size: 2vw;
-    margin-top: -7vw;
+    margin-top: -17vw;
     color: white;
+    z-index: 2;
 }
 
 .wrapper .content .content_right .content-item .third-content-item .third-content-item-3 .circle-content3 .circle-content3-sum{
     font-size: 1.5vw;
     margin-top: 0.3vw;
+    z-index: 2;
 }
 
 .wrapper .content .content_right .content-item .confirmLog{

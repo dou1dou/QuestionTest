@@ -46,4 +46,6 @@ urlpatterns = [
     path('info/personal/get_solved_question_number/api/', views.get_solved_question_number),
     path('message/class/api/', views.get_class_message),
     path('message/discussion/api', views.get_discussion_message),
+    path('info/personal/get_correct_rate/api/', views.get_correct_rate),
+    path('info/personal/get_solved_homework_number/api/', views.get_solved_homework_number),
 ]
