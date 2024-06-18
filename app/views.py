@@ -81,19 +81,8 @@ def register_api(username, password, role_id):
 def register_api_user(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    return register_api(username, password, 3)
-
-
-def register_api_teacher(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    return register_api(username, password, 2)
-
-
-def register_api_admin(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    return register_api(username, password, 1)
+    role_id = request.POST.get('role-id', 3)
+    return register_api(username, password, role_id)
 
 
 def register(request):
