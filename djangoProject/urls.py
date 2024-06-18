@@ -41,6 +41,8 @@ urlpatterns = [
     path('info/personal/api/', views.get_personal_info),
     path('info/class/api/', views.get_class_info),
     path('info/practice/api/', views.get_practice_info),
+    path('info/correct/api/', views.get_correct_rate),
     path('personal/', views.personal),
-    path('questions/api/', views.question_get_api)
+    path('questions/api/', views.question_get_api),
+    path('questions/store/api/', views.store_practice_info),
 ]
