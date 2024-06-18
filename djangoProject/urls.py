@@ -19,6 +19,7 @@ from django.urls import path
 
 from app import views
 import app.admin
+from app import ChartViews
 
 urlpatterns = [
     path('', views.index),
@@ -42,5 +43,7 @@ urlpatterns = [
     path('info/class/api/', views.get_class_info),
     path('info/practice/api/', views.get_practice_info),
     path('personal/', views.personal),
-    path('questions/api/', views.question_get_api)
+    path('questions/api/', views.question_get_api),
+    path('info/personal/get_solved_question_number/api/', views.get_solved_question_number),
+    path('test/', views.test),
 ]

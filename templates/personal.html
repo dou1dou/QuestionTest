@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'app/css/personal.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/confirmLogout.js' %}"></script>
+    <script src="{% static 'lib/echarts.js' %}"></script>
 </head>
 <body>
 <div id="particles-js"></div>
@@ -22,7 +23,7 @@
             </div>
             <div class="icon">
                 <div class="my_homepage">主页</div>
-                <div class="recommend">推荐</div>
+                <div class="Review">错题回顾</div>
                 <div class="teaching_classes">教学班</div>
                 <div class="questions" onclick="location.href='/questions'">题库</div>
             </div>
@@ -68,9 +69,10 @@
                     <div class="third-content-item-1">
                         <p class="brushing-records">刷题记录</p>
                         <div class="circle-content1">
-                            <div class="circle-content1-basic"></div>
+                            <div id="6002b0f3f7c74203bb5d1e2fc7983022" class="circle-content1-basic" style="width: 29vw !important; height: 29vw !important;
+                                margin-top: -9vw"></div>
                             <p class="circle-content1-word">全部</p>
-                            <p class="circle-content1-sum">0</p>
+                            <p class="circle-content1-sum">0/0</p>
                         </div>
                         <p class="item1-easy">简单：0/0</p>
                         <p class="item1-hard">困难：0/0</p>
@@ -92,7 +94,7 @@
                         <div class="circle-content3">
                             <div class="circle-content3-basic"></div>
                             <p class="circle-content3-word">全部</p>
-                            <p class="circle-content3-sum">0</p>
+                            <p class="circle-content3-sum">0/0</p>
                         </div>
                         <p class="item3-end">截止已完成：0/0</p>
                         <p class="item3-no-end">截止未完成：0/0</p>
@@ -111,4 +113,5 @@
     <script src="{% static 'app/js/app.js' %}"></script>
     <script src="{% static 'app/js/personal.js' %}"></script>
     <script src="{% static 'app/js/avatar.js' %}"></script>
+    <script src="{% static 'app/js/charts.js' %}"></script>
 </html>

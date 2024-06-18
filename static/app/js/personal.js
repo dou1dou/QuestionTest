@@ -44,3 +44,20 @@ $(document).ready(function () {
     });
 })
 
+
+$(document).ready(function (){
+    let all, solved;
+    $.ajax({
+        url: "/info/personal/get_solved_question_number/api/",
+        method: "GET",
+        success: function(response){
+            const sum_solved = $(".circle-content1-sum");
+            sum_solved.text(response['solved'] + "/" + response['all'])
+            all = response['all'];
+            solved = response['solved'];
+        },
+        error: function (){
+            alert("请求失败！")
+        }
+    });
+})

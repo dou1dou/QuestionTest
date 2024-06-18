@@ -30,13 +30,14 @@ def login_api(request):
                 return JsonResponse({'err': 'information is null'})
             connection = DBUtil.get_connection('user_pool')
             cursor = connection.cursor()
-            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0', (username, password))
+            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0',
+                           (username, password))
             if len(cursor.fetchall()) != 0:
                 # 登陆成功的逻辑操作
                 response = JsonResponse({'login': True})
                 response.set_cookie('login', username + password, max_age=86400 * 7)
                 cursor.execute("update users set lastLoginCookie = %s where userName = %s",
-                                   (username + password, username))
+                               (username + password, username))
                 connection.commit()
                 return response
             else:
@@ -338,7 +339,7 @@ def get_practice_info(request):
             cursor.close()
 
 
-def get_solved_question_numer(request):
+def get_solved_question_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -365,7 +366,7 @@ def get_solved_question_numer(request):
             cursor.close()
 
 
-def get_solved_homework_numer(request):
+def get_solved_homework_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -394,3 +395,7 @@ def get_solved_homework_numer(request):
 
 def personal(request):
     return render(request, 'personal.html')
+
+
+def test(request):
+    return render(request, 'test.html')
