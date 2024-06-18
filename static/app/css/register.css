@@ -30,7 +30,7 @@
 
 .user_password{
     box-sizing: border-box;
-    padding:3vw;
+    padding:1.5vw;
 
     display: flex;
     flex-direction: column;
@@ -112,3 +112,17 @@
 
     margin-top:2vw;
 }
+
+.select_css{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 1vw;
+    color: #666;
+}
+
+.select_css select {
+    border-radius: 5px;
+}
+
