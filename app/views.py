@@ -508,3 +508,8 @@ def get_class_message(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def get_question_number_by_difficulty(request):
+    if request.method == 'POST':
+        pass
