@@ -44,4 +44,6 @@ urlpatterns = [
     path('questions/api/', views.question_get_api),
     path('questions/store/api/', views.store_practice_info),
     path('info/personal/get_solved_question_number/api/', views.get_solved_question_number),
+    path('message/class/api/', views.get_class_message),
+    path('message/discussion/api', views.get_discussion_message),
 ]

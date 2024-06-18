@@ -449,3 +449,62 @@ def get_correct_rate(request):
         if cursor is not None:
             cursor.close()
 
+
+def get_discussion_message(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select classroom from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        classroom_id = res[0][0]
+        cursor.execute("select publisher, content from discussion where class_id = %s", (classroom_id,))
+        res = cursor.fetchall()
+        response = {'info': []}
+        for r in res:
+            response['info'].append({'publisher': r[0], 'content': r[1]})
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_class_message(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select classroom from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        classroom_id = res[0][0]
+        cursor.execute("select publisher, content from classroom_message where classroom_id = %s", (classroom_id,))
+        res = cursor.fetchall()
+        response = {'info': []}
+        for r in res:
+            response['info'].append({'publisher': r[0], 'content': r[1]})
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
