@@ -512,4 +512,32 @@ def get_class_message(request):
 
 def get_question_number_by_difficulty(request):
     if request.method == 'POST':
-        pass
+        return JsonResponse({'err': "please try with GET method!"})
+    cookie = request.COOKIES.get("login")
+    difficulty = request.GET.get("difficulty")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in "
+                       "(select Objective_question_id from objective_questions where Difficulty = %s)",
+                       (username, difficulty))
+        solved = cursor.fetchall()[0][0]
+        cursor.execute("select count(*) from objective_questions where Difficulty = %s", (difficulty,))
+        total = cursor.fetchall()[0][0]
+        return JsonResponse({'total': total, 'solved': solved})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
