@@ -174,13 +174,13 @@ create table student_homework
 )
     comment '学生信息和作业联合查询表';
 
-
+drop trigger if exists sync_update_student_homework;
 create trigger sync_update_student_homework after insert on homework for each row
     begin
         set @classroom = new.classroom_id;
         set @homework_id = new.homework_id;
         insert into student_homework (stu_name, homework_id)
-            select users.userName, @homework_id from users where classroom_id = @classroom;
+            select users.userName, @homework_id from users where classroom = @classroom;
     end;
 
 
@@ -189,7 +189,22 @@ insert into roles (roleId, roleName) values (2, '教师');
 insert into roles (roleId, roleName) values (3, '学生');
 
 insert into users (userName, password, roleId) values ('test_user', 'py123', 3);
+insert into users (userName, password, roleId) values ('admin01', 'admin01', 1);
+insert into users (userName, password, roleId) values ('teacher01', 'teacher01', 2);
+insert into users (userName, password, roleId) values ('student01', 'student01', 3);
+insert into users (userName, password, roleId) values ('student02', 'student02', 3);
+insert into users (userName, password, roleId) values ('student03', 'student03', 3);
 
 insert into course (course_name) values ('Python');
 insert into course (course_name) values ('C');
 insert into course (course_name) values ('Java');
+
+insert into classroom (course_id, class_name, teacher_username) values (1, 'python实践教学', 'teacher01');
+insert into classroom (course_id, class_name, teacher_username) values (1, 'python实践教学2', 'teacher01');
+insert into classroom (course_id, class_name, teacher_username) values (1, 'python实践教学3', 'teacher01');
+
+update users set classroom = 1 where userName = 'student01';
+update users set classroom = 1 where userName = 'student02';
+update users set classroom = 2 where userName = 'student03';
+
+insert into homework (question_id, publisher, classroom_id, publish_time, cutoff_time) values (1, 'teacher01', 1, '2024-06-18 17:17:11', '2024-06-24 17:17:11');

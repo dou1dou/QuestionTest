@@ -18,6 +18,13 @@
         <form action="api/user/" method="post" id="registerForm">
             {% csrf_token %}
             <h3>注册账号</h3>
+            <div class="select_css">
+                <label for="role-id">请选择角色:</label>
+                <select name="role-id" id="role">
+                    <option value="2">老师</option>
+                    <option value="3">学生</option>
+                </select>
+            </div>
             <div class="user_password">
                 <div class="user">
                     <label for="username">用户名:</label>

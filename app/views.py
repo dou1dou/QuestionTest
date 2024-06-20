@@ -2,6 +2,7 @@ import random
 
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from ._utils import DBUtil, QuestionUtil
 
@@ -80,19 +81,10 @@ def register_api(username, password, role_id):
 def register_api_user(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    return register_api(username, password, 3)
-
-
-def register_api_teacher(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    return register_api(username, password, 2)
-
-
-def register_api_admin(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    return register_api(username, password, 1)
+    role_id = int(request.POST.get('role-id', 3))
+    if role_id != 2 and role_id != 3:
+        role_id = 3
+    return register_api(username, password, role_id)
 
 
 def register(request):
@@ -338,7 +330,7 @@ def get_practice_info(request):
             cursor.close()
 
 
-def get_solved_question_numer(request):
+def get_solved_question_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -365,7 +357,7 @@ def get_solved_question_numer(request):
             cursor.close()
 
 
-def get_solved_homework_numer(request):
+def get_solved_homework_number(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -392,5 +384,160 @@ def get_solved_homework_numer(request):
             cursor.close()
 
 
+@csrf_exempt
+def store_practice_info(request):
+    if request.method == "GET":
+        return JsonResponse({'err': 'please try with POST method!'})
+    question_id = request.POST.get('question_id')
+    correct = request.POST.get('correct')
+    choices = request.POST.get('choices')
+    cookie = request.COOKIES.get('login')
+
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("insert into practice_record (question_id, username, choices, pass) values (%s, %s, %s, %s)",
+                       (question_id, username, choices, correct))
+        connection.commit()
+        return JsonResponse({'info': 'success'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
 def personal(request):
     return render(request, 'personal.html')
+
+
+def get_correct_rate(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select username from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s", (username,))
+        total = cursor.fetchall()[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0", (username,))
+        correct = cursor.fetchall()[0][0]
+        return JsonResponse({"total": total, "correct": correct})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_discussion_message(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select classroom from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        classroom_id = res[0][0]
+        cursor.execute("select publisher, content from discussion where class_id = %s", (classroom_id,))
+        res = cursor.fetchall()
+        response = {'info': []}
+        for r in res:
+            response['info'].append({'publisher': r[0], 'content': r[1]})
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_class_message(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select classroom from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        classroom_id = res[0][0]
+        cursor.execute("select publisher, content from classroom_message where classroom_id = %s", (classroom_id,))
+        res = cursor.fetchall()
+        response = {'info': []}
+        for r in res:
+            response['info'].append({'publisher': r[0], 'content': r[1]})
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'err'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_question_number_by_difficulty(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': "please try with GET method!"})
+    cookie = request.COOKIES.get("login")
+    difficulty = request.GET.get("difficulty")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in "
+                       "(select Objective_question_id from objective_questions where Difficulty = %s)",
+                       (username, difficulty))
+        solved = cursor.fetchall()[0][0]
+        cursor.execute("select count(*) from objective_questions where Difficulty = %s", (difficulty,))
+        total = cursor.fetchall()[0][0]
+        return JsonResponse({'total': total, 'solved': solved})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()

@@ -19,6 +19,7 @@ from django.urls import path
 
 from app import views
 import app.admin
+from app import ChartViews
 
 urlpatterns = [
     path('', views.index),
@@ -28,8 +29,6 @@ urlpatterns = [
     path('register/api/user/', views.register_api_user),
     path('register/', views.register),
     path('register/teacher/', views.register_teacher),
-    path('register/api/teacher/', views.register_api_teacher),
-    path('register/api/admin/', views.register_api_admin),
     path('forgetpassword/api/', views.forget_password_api),
     path('forgetpassword/', views.forget_password),
     path('postquestion/api/', views.question_post_api),
@@ -42,5 +41,11 @@ urlpatterns = [
     path('info/class/api/', views.get_class_info),
     path('info/practice/api/', views.get_practice_info),
     path('personal/', views.personal),
-    path('questions/api/', views.question_get_api)
+    path('questions/api/', views.question_get_api),
+    path('questions/store/api/', views.store_practice_info),
+    path('info/personal/get_solved_question_number/api/', views.get_solved_question_number),
+    path('message/class/api/', views.get_class_message),
+    path('message/discussion/api', views.get_discussion_message),
+    path('info/personal/get_correct_rate/api/', views.get_correct_rate),
+    path('info/personal/get_solved_homework_number/api/', views.get_solved_homework_number),
 ]

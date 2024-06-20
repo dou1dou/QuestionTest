@@ -150,7 +150,6 @@
     display: flex;
 
     align-content: center;
-    /*justify-content: center;*/
 
     height:34vw;
     overflow-y: auto;
@@ -188,4 +187,24 @@
 .correct-answer{
     color: green;
     font-size: 1.2vw;
+}
+
+
+
+.check-answer{
+    margin-top:1vw;
+    margin-left:60vw;
+    width: 7vw;
+    height: 3vw;
+
+
+    border:none;
+    background-color: #17BAF9;
+    border-radius: 8px;
+    font-size: 1.0vw;
+    cursor: pointer;
+}
+
+.check-answer:hover {
+    background-color: #4CAF50;
 }
