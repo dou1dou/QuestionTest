@@ -541,3 +541,11 @@ def get_question_number_by_difficulty(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def teacher_classroom(request):
+    return render(request, 'teaching_classes.html')
+
+
+def student_classroom(request):
+    return render(request, 'students_classes.html')

@@ -136,6 +136,11 @@
     border-radius: 25px;
 }
 
+.wrapper .content2 .content-left .content_left_word2 {
+    user-select: none;
+    cursor: pointer;
+}
+
 .wrapper .content2 .content_center{
     margin-left: 2vw;
     width: 36vw;

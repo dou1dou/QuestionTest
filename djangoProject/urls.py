@@ -48,4 +48,6 @@ urlpatterns = [
     path('message/discussion/api', views.get_discussion_message),
     path('info/personal/get_correct_rate/api/', views.get_correct_rate),
     path('info/personal/get_solved_homework_number/api/', views.get_solved_homework_number),
+    path('classroom/student/', views.student_classroom),
+    path('classroom/teacher/', views.teacher_classroom),
 ]
