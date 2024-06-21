@@ -50,4 +50,6 @@ urlpatterns = [
     path('info/personal/get_solved_homework_number/api/', views.get_solved_homework_number),
     path('classroom/student/', views.student_classroom),
     path('classroom/teacher/', views.teacher_classroom),
+    path('get_mistakes/api/', views.get_mistakes),
+    path('delete_mistakes/api/', views.del_mistakes)
 ]

@@ -3,6 +3,7 @@ import random
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from ._utils import DBUtil, QuestionUtil
 
@@ -450,6 +451,10 @@ def get_correct_rate(request):
             cursor.close()
 
 
+
+
+
+
 def get_discussion_message(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
@@ -549,3 +554,85 @@ def teacher_classroom(request):
 
 def student_classroom(request):
     return render(request, 'students_classes.html')
+
+
+def get_mistakes(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
+        response = cursor.fetchall()
+        cursor.execute("select question_id from practice_record where username = %s and pass = 1", (response[0][0],))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'noMistakes': 'no data'})
+
+        question_ids = [row[0] for row in res]
+
+        # 防止 question_ids 为空
+        if not question_ids:
+            return JsonResponse({'noQuestions': 'no matching questions'})
+
+        # 建立查询语句获取符合条件的题目数据
+        format_strings = ','.join(['%s'] * len(question_ids))
+        cursor.execute(f"select * from objective_questions where Objective_question_id in ({format_strings})",
+                       tuple(question_ids))
+        questions = cursor.fetchall()
+
+        # 构建响应数据
+        response_data = {'questions': []}
+
+        # 遍历问题列表，构建响应数据
+        for question in questions:
+            response_data['questions'].append([
+                question[0],  # question_id
+                question[1],  # description
+                question[2],  # choice_a
+                question[3],  # choice_b
+                question[4],  # choice_c
+                question[5],  # choice_d
+                question[6],  # answer
+                question[7],  # knowledge_point
+                question[8],  # parse
+                question[9],  # difficulty
+            ])
+        return JsonResponse(response_data)
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+@csrf_exempt
+def del_mistakes(request):
+    if request.method == 'GET':
+        return JsonResponse({'err': 'please try with GET method!'})
+    question_id = request.POST.get("question_id")
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
+        response = cursor.fetchall()
+        cursor.execute("delete from practice_record where username = %s and question_id = %s", (response[0][0], question_id))
+        connection.commit()
+        return JsonResponse({'success': 'delete success'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()

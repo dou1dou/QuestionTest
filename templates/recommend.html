@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
+    <script src="{% static 'app/js/getMistakes.js' %}"></script>
     <link rel="stylesheet" href="{% static 'app/css/recommend.css' %}">
 </head>
 <body>
@@ -30,7 +31,14 @@
             </div>
         </div>
         <div class="homepage">
-            <i class=""></i>
+            <div class="mistake_list">
+                <div class="title"><h3>错题列表</h3></div>
+                <div id="questions" class="mistakes">
+                     <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
