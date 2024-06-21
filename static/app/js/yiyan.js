@@ -45,6 +45,10 @@ $(document).ready(function() {
     $(".chart").click(function() {
         window.location.href = "/personal/"
     })
+
+    $(".Review").click(function() {
+        window.location.href = "/recommend/";
+    })
 })
 
 
