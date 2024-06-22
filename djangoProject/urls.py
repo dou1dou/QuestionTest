@@ -51,5 +51,7 @@ urlpatterns = [
     path('classroom/student/', views.student_classroom),
     path('classroom/teacher/', views.teacher_classroom),
     path('get_mistakes/api/', views.get_mistakes),
-    path('delete_mistakes/api/', views.del_mistakes)
+    path('delete_mistakes/api/', views.del_mistakes),
+    path('exam/list/api/', views.get_exam_list),
+    path('exam/question/api/', views.get_exam_detail),
 ]

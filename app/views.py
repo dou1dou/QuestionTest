@@ -32,13 +32,14 @@ def login_api(request):
                 return JsonResponse({'err': 'information is null'})
             connection = DBUtil.get_connection('user_pool')
             cursor = connection.cursor()
-            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0', (username, password))
+            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0',
+                           (username, password))
             if len(cursor.fetchall()) != 0:
                 # 登陆成功的逻辑操作
                 response = JsonResponse({'login': True})
                 response.set_cookie('login', username + password, max_age=86400 * 7)
                 cursor.execute("update users set lastLoginCookie = %s where userName = %s",
-                                   (username + password, username))
+                               (username + password, username))
                 connection.commit()
                 return response
             else:
@@ -451,10 +452,6 @@ def get_correct_rate(request):
             cursor.close()
 
 
-
-
-
-
 def get_discussion_message(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
@@ -612,6 +609,7 @@ def get_mistakes(request):
         if cursor is not None:
             cursor.close()
 
+
 @csrf_exempt
 def del_mistakes(request):
     if request.method == 'GET':
@@ -625,9 +623,70 @@ def del_mistakes(request):
         cursor = connection.cursor()
         cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
         response = cursor.fetchall()
-        cursor.execute("delete from practice_record where username = %s and question_id = %s", (response[0][0], question_id))
+        cursor.execute("delete from practice_record where username = %s and question_id = %s",
+                       (response[0][0], question_id))
         connection.commit()
         return JsonResponse({'success': 'delete success'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_exam_list(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select userName, classroom from users where lastLoginCookie = %s", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        username = res[0][0]
+        classroom_id = res[0][1]
+        cursor.execute("select exam_id from exam where classroom_id = %s", (classroom_id,))
+        response = {'data': []}
+        exams = cursor.fetchall()
+        for exam in exams:
+            response['data'].append({'exam-id': exam[0], 'exam-name': exam[1], 'exam-time': exam[3]})
+        return JsonResponse(response)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'err': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_exam_detail(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'please try with GET method!'})
+    exam_id = request.POST.get("exam-id")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select question_id from question_exam where exam_id = %s", (exam_id,))
+        res = cursor.fetchall()
+        question_list = []
+        for exam in res:
+            cursor.execute("select * from objective_questions where Objective_question_id = %s", (exam[0],))
+            question = cursor.fetchall()[0][0:6]
+            question_list.append(list(question))
+        return JsonResponse({'data': question_list})
     except Exception as e:
         print(e)
         return JsonResponse({'err': 'failed'})
