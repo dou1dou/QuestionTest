@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>随机组卷界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'lib/normalize.css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/Random_combination_tests.css' %}">
+    <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
+    <script src="{% static 'app/js/Random_combination_tests.js' %}"></script>
+</head>
+<body>
+<div id="particles-js"></div>
+<div class="wrapper">
+    <div class="header">
+        <div class="theme">
+            <div class="title">
+                <div class="title_text">试题测试系统</div>
+            </div>
+            <div class="icon">
+                <div class="my_homepage" onclick="location.href='/homepage'">主页</div>
+                <div class="recommend">推荐</div>
+                <div class="objective_question">随机组卷</div>
+                <div class="Fill_in_the_blank_questions">题库</div>
+            </div>
+            <div class="chart">
+                <i class="far fa-user-circle"></i>
+            </div>
+        </div>
+        <div class="homepage">
+            <i class=""></i>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_left">
+            <p class="content_left_word">试卷集</p>
+            <div class="test_body">
+                <div class="display-tests" id="tests">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content_center">
+            <p class="content_center_word">试卷概览</p>
+            <div class="body">
+                <div class="display-questions" id="questions">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+    <script src='{% static 'app/js/particles.js' %}'></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
+</html>
