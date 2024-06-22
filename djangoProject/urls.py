@@ -54,4 +54,5 @@ urlpatterns = [
     path('delete_mistakes/api/', views.del_mistakes),
     path('exam/list/api/', views.get_exam_list),
     path('exam/question/api/', views.get_exam_detail),
+    path('Random_combination_tests/', views.Random_combination_tests)
 ]
