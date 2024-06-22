@@ -695,3 +695,7 @@ def get_exam_detail(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def exam_page(request):
+    return render(request, 'Random_combination_tests.html')
