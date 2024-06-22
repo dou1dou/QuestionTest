@@ -183,6 +183,40 @@ create trigger sync_update_student_homework after insert on homework for each ro
             select users.userName, @homework_id from users where classroom = @classroom;
     end;
 
+drop table if exists exam;
+create table exam
+(
+    exam_id      int auto_increment comment '考试编号'
+        primary key,
+    exam_name    varchar(32)     not null comment '考试名称',
+    publisher    varchar(32)     null comment '考试发布人',
+    exam_time    int default 100 not null comment '考试时间（单位：分钟）',
+    start_time   datetime        not null comment '考试开始时间',
+    end_time     datetime        not null comment '考试截止时间',
+    classroom_id int             null comment '所属班级',
+    constraint exam_classroom_class_id_fk
+        foreign key (classroom_id) references classroom (class_id),
+    constraint exam_users_userName_fk
+        foreign key (publisher) references users (userName)
+)
+    comment '考试信息表';
+
+drop table if exists question_exam;
+create table question_exam
+(
+    question_id int null comment '考试题目编号',
+    exam_id     int null comment '对应考试编号',
+    constraint question_exam_exam_exam_id_fk
+        foreign key (exam_id) references exam (exam_id),
+    constraint question_exam_objective_questions_Objective_question_id_fk
+        foreign key (question_id) references objective_questions (Objective_question_id)
+)
+    comment '考试题目表';
+
+create index question_exam_exam_id_index
+    on question_exam (exam_id)
+    comment '根据考试编号建立的索引';
+
 
 insert into roles (roleId, roleName) values (1, '管理员');
 insert into roles (roleId, roleName) values (2, '教师');
