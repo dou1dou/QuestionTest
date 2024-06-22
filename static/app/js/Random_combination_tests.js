@@ -1,217 +1,151 @@
-$(document).ready(function () {
-    let currentKnowledgePoint = null;
-    let currentDifficulty = 1;
-
-
-    function updateQuestions() {
-        const choices = ['A', 'B', 'C', 'D'];
+$(document).ready(function() {
+    function fetchExamList() {
         $.ajax({
-            url: '/questions/api/',
+            url: "/exam/list/api/",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                const exams = response.data;
+                const examList = $("#tests ul");
+                examList.empty();
+
+                $.each(exams, function(index, exam) {
+                    const examItem = $(`
+                        <li data-exam-id="${exam['exam-id']}">
+                            <p>考试编号：${exam['exam-id']}</p>
+                            <p>考试标题：${exam['exam-name']}</p>
+                            <p>考试时间：${exam['exam-time']}分钟</p>
+                        </li>
+                    `);
+                    examItem.on('click', function() {
+                        fetchExamQuestions($(this).data('exam-id'));
+                    });
+                    examList.append(examItem);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("获取考试信息失败：", error);
+            }
+        });
+    }
+
+    function fetchExamQuestions(examId) {
+        $.ajax({
+            url: '/exam/question/api/',
             type: 'GET',
+            dataType: 'json',
+            data: { 'exam-id': examId },
+            success: function(response) {
+                const questions = response.data;
+                const questionList = $('#questions ul');
+                questionList.empty();
+
+                $.each(questions, function(index, questionData) {
+                    const questionElement = $(`
+                        <li>
+                            <p class="questions-desc-css">${index + 1}、${questionData[1]}</p>
+                            ${generateChoiceElements(questionData).join('')}
+                            <button class="check-answer">提交</button>
+                            <p class="answer-feedback"></p>
+                        </li>
+                    `);
+
+                    questionElement.find('.check-answer').on('click', function() {
+                        checkAnswer(questionElement, questionData);
+                    });
+
+                    questionList.append(questionElement);
+                    questionList.append('<hr>');
+                });
+
+                questionList.append('<button id="submit-all" class="submit-all-css">提交全部答案</button>');
+                $('#submit-all').on('click', submitAllAnswers);
+            },
+            error: function(error) {
+                alert('获取题目出错: ' + error);
+            }
+        });
+    }
+
+    function generateChoiceElements(questionData) {
+        const choices = ['A', 'B', 'C', 'D'];
+        return choices.map((choice, i) => {
+            return questionData[i + 2] ? `
+                <div class="questions-choice-css" style="display: flex">
+                    <div class="choice-btn">
+                        <input type="radio" id="option${i + 1}" name="options-${questionData[0]}" value="${choice}">
+                    </div>
+                    <div class="choice-content">${questionData[i + 2]}</div>
+                </div>
+            ` : '';
+        });
+    }
+
+    function checkAnswer(questionElement, questionData) {
+        const selectedOption = questionElement.find(`input[name="options-${questionData[0]}"]:checked`).val();
+        const answerFeedback = questionElement.find('.answer-feedback');
+        const correctAnswer = questionData[6];
+
+        if (selectedOption === undefined) {
+            alert('请选择答案！');
+            return;
+        }
+
+        if (selectedOption === correctAnswer) {
+            answerFeedback.text('答案正确');
+        } else {
+            answerFeedback.html(`答案错误，正确答案是：<span class="correct-answer">${correctAnswer}</span>`);
+        }
+
+        $.ajax({
+            url: '/questions/store/api/',
+            type: 'POST',
             dataType: 'json',
             data: {
-                Knowledge_points: currentKnowledgePoint,
-                Difficulty: currentDifficulty
+                question_id: questionData[0],
+                choices: selectedOption,
+                correct: selectedOption === correctAnswer ? 0 : 1
             },
-            success: function (data) {
-                $('#questions ul').empty();
-                $.each(data, function (index, questionData) {
-                    const answer = questionData[6];
-                    const isMultipleChoice = answer.length > 1;
-                    const questionElement = $('<li></li>');
-
-                    for (let i = 0; i < 5; ++i) {
-                        if (i === 0) {
-                            questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[i + 1]}</p>`);
-                        } else if (questionData[i + 1] !== null) {
-                            const choiceElement = $(`
-              <div class="questions-choice-css" style="display: flex">
-                <div class="choice-btn">
-                  <input type="${isMultipleChoice ? 'checkbox' : 'radio'}" id="option${i + 1}" name="options-${index}" value="${choices[i - 1]}">
-                </div>
-                <div class="choice-content">${questionData[i + 1]}</div>
-              </div>
-            `);
-                            questionElement.append(choiceElement);
-                        }
-                    }
-
-                    const checkButton = $('<button class="check-answer">提交</button>');
-                    const answerElement = $('<p class="answer-feedback"></p>');
-                    questionElement.append(checkButton);
-                    questionElement.append(answerElement);
-
-                    $('#questions ul').append(questionElement);
-                    $('#questions ul').append('<hr>');
-
-                    checkButton.click(function () {
-                        if (isMultipleChoice) {
-                            const selectedOptions = $(`input[name="options-${index}"]:checked`).map(function () {
-                                return $(this).val();
-                            }).get();
-
-                            // 检查是否选择了答案
-                            if (selectedOptions.length === 0) {
-                                alert('请选择答案！');
-                                return;
-                            }
-
-                            // 检查是否所有选项都选对
-                            const isAllCorrect = selectedOptions.length === answer.length && selectedOptions.every(option => answer.includes(option));
-                            if (isAllCorrect) {
-                                answerElement.text('答案正确');
-                                let result = "";
-                                for(let i = 0; i < selectedOptions.length; i++){
-                                    result += selectedOptions[i];
-                                }
-                                $.ajax({
-                                    url: '/questions/store/api/',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        question_id: questionData[0],
-                                        choices: result, // 发送数组
-                                        correct: 0
-                                    },
-                                    success: function (data) {
-                                        console.log('post成功');
-                                    },
-                                    error: function (error) {
-                                        console.error('post失败:', error);
-                                    }
-                                });
-                            } else {
-                                answerElement.html(`答案错误，正确答案是：<span class="correct-answer">${answer}</span>`);
-                                let result = "";
-                                for(let i = 0; i < selectedOptions.length; i++){
-                                    result += selectedOptions[i];
-                                }
-                                $.ajax({
-                                    url: '/questions/store/api/',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        question_id: questionData[0],
-                                        choices: result, // 发送数组
-                                        correct: 1
-                                    },
-                                    success: function (data) {
-                                        console.log('post成功');
-                                    },
-                                    error: function (error) {
-                                        console.error('post失败:', error);
-                                    }
-                                });
-                            }
-                        } else {
-                            const selectedOption = $(`input[name="options-${index}"]:checked`).val();
-
-                            // 检查是否选择了答案
-                            if (selectedOption === undefined) {
-                                alert('请选择答案！');
-                                return;
-                            }
-
-                            if (selectedOption === answer) {
-                                answerElement.text('答案正确');
-                                $.ajax({
-                                    url: '/questions/store/api/',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        question_id: questionData[0],
-                                        choices: selectedOption, // 发送数组
-                                        correct: 0
-                                    },
-                                    success: function (data) {
-                                        console.log('post成功');
-                                    },
-                                    error: function (error) {
-                                        console.error('post失败:', error);
-                                    }
-                                });
-                            } else {
-                                answerElement.html(`答案错误，正确答案是：<span class="correct-answer">${answer}</span>`);
-                                $.ajax({
-                                    url: '/questions/store/api/',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        question_id: questionData[0],
-                                        choices: selectedOption, // 发送数组
-                                        correct: 1
-                                    },
-                                    success: function (data) {
-                                        console.log('post成功');
-                                    },
-                                    error: function (error) {
-                                        console.error('post失败:', error);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                });
+            success: function(data) {
+                console.log('答案提交成功');
             },
-            error: function (error) {
-                alert('获取题目出错:' + error);
+            error: function(error) {
+                console.error('答案提交失败:', error);
             }
         });
     }
 
-    // 假设按钮和下拉菜单的 HTML 结构与之前相同
-    $('.button-css button').on('click', function () {
-        if ($(this).data('knowledge-point').length !== 0 && $(this).data('knowledge-point') !== null) {
-            currentKnowledgePoint = $(this).data('knowledge-point');
-        } else {
-            currentKnowledgePoint = null;
-        }
-        updateQuestions();
-    });
+    function submitAllAnswers() {
+        let allAnswered = true;
 
-    $('#difficulty').on('change', function () {
-        if ($(this).val().length !== 0) {
-            currentDifficulty = $(this).val();
-        } else {
-            currentDifficulty = 1;
-        }
-        updateQuestions();
-    });
-
-    updateQuestions();
-
-    $(".chart").click(function () {
-        window.location.href = "/personal/"
-    })
-
-
-    function updateTests() {
-        $.ajax({
-            url: '/tests/api/',  // 假定这是获取测试列表的API端点
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                const testsList = $('#tests ul');
-                testsList.empty();  // 清空现有的测试列表
-
-                // 遍历返回的测试列表数据
-                $.each(data, function (index, testData) {
-                    // 假设每个测试数据包含id和title
-                    const testId = testData.id;
-                    const testTitle = testData.title;
-
-                    // 创建列表项并添加到<ul>中
-                    const listItem = $(`<li id="test-${testId}">${testTitle}</li>`);
-                    testsList.append(listItem);
-                });
-            },
-            error: function (error) {
-                console.error('获取测试列表出错:', error);
-                alert('获取测试列表失败，请稍后重试。');
+        $('#questions ul li').each(function() {
+            const inputs = $(this).find('input');
+            if (inputs.length > 0 && !inputs.is(':checked')) {
+                allAnswered = false;
+                return false;
             }
         });
+
+        if (!allAnswered) {
+            alert('请回答所有问题后再提交！');
+            return;
+        }
+
+        let score = 0;
+        $('.check-answer').each(function() {
+            $(this).click();
+            if ($(this).next('.answer-feedback').text().includes('答案正确')) {
+                score += 5;
+            }
+        });
+
+        const resultMessage = `你的总分是：${score} 分，满分为 100 分。${score === 100 ? ' 恭喜你，满分！' : ''}`;
+        $('#questions ul').append(`<p class="total-score">${resultMessage}</p>`);
     }
 
-    // 调用updateTests函数来加载并显示测试列表
-    updateTests();
+    fetchExamList();
+
+    $(".chart").click(function() {
+        window.location.href = "/personal/";
+    });
 });

@@ -78,13 +78,16 @@
     width: 100%;
     height: 40vw;
     display: flex;
+
+    flex-direction: row;
+    align-items: stretch;
 }
 
 .wrapper .content .content_left{
     display: flex;
     align-content: center;
 
-    height:32vw;
+    /* height:32vw; 这行被移除以允许高度自适应 */
     overflow-y: auto;
 
     margin-left: 6vw;
@@ -190,4 +193,19 @@
 
 .check-answer:hover {
     background-color: #4CAF50;
+}
+
+/* 样式用于提交全部答案按钮 */
+#submit-all{
+    font-size: 1.5vw;
+    margin-top: 20px; /* 设置与前面内容的间距 */
+    display: block; /* 确保按钮在单独一行显示 */
+}
+
+/* 样式用于总分标题 */
+.total-score {
+    font-size: 2vw;
+    margin-top: 20px; /* 设置与前面内容的间距 */
+    text-align: center; /* 将总分标题居中显示 */
+    color: red;
 }
