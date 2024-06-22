@@ -668,9 +668,6 @@ def get_exam_list(request):
         if cursor is not None:
             cursor.close()
 
-def Random_combination_tests(request):
-    return render(request, 'Random_combination_tests.html')
-
 
 def get_exam_detail(request):
     if request.method == 'POST':
@@ -699,5 +696,6 @@ def get_exam_detail(request):
         if cursor is not None:
             cursor.close()
 
-def Random_combination_tests(request):
+
+def exam_page(request):
     return render(request, 'Random_combination_tests.html')
