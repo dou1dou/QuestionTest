@@ -32,13 +32,14 @@ def login_api(request):
                 return JsonResponse({'err': 'information is null'})
             connection = DBUtil.get_connection('user_pool')
             cursor = connection.cursor()
-            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0', (username, password))
+            cursor.execute('select * from users where userName = %s and password = %s and deleted = 0',
+                           (username, password))
             if len(cursor.fetchall()) != 0:
                 # 登陆成功的逻辑操作
                 response = JsonResponse({'login': True})
                 response.set_cookie('login', username + password, max_age=86400 * 7)
                 cursor.execute("update users set lastLoginCookie = %s where userName = %s",
-                                   (username + password, username))
+                               (username + password, username))
                 connection.commit()
                 return response
             else:
@@ -451,10 +452,6 @@ def get_correct_rate(request):
             cursor.close()
 
 
-
-
-
-
 def get_discussion_message(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
@@ -612,6 +609,7 @@ def get_mistakes(request):
         if cursor is not None:
             cursor.close()
 
+
 @csrf_exempt
 def del_mistakes(request):
     if request.method == 'GET':
@@ -625,7 +623,8 @@ def del_mistakes(request):
         cursor = connection.cursor()
         cursor.execute("select userName from users where lastLoginCookie = %s", (cookie,))
         response = cursor.fetchall()
-        cursor.execute("delete from practice_record where username = %s and question_id = %s", (response[0][0], question_id))
+        cursor.execute("delete from practice_record where username = %s and question_id = %s",
+                       (response[0][0], question_id))
         connection.commit()
         return JsonResponse({'success': 'delete success'})
     except Exception as e:
