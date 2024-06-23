@@ -1,19 +1,4 @@
 $(document).ready(function() {
-    $.ajax({
-        url: "/homepage/api/",
-        method: "GET",
-        dataType: "json",
-        success: function(data) {
-            if(!data['hasLogin']) {
-                window.location.href = "/login/";
-                return;
-            }
-
-            alert(data['user_name'])
-        }
-    })
-
-
     const yiyan = $("#yiyan");
     let author, content, date, from, pic_url;
     $.ajax({
@@ -49,6 +34,17 @@ $(document).ready(function() {
     $(".Review").click(function() {
         window.location.href = "/recommend/";
     })
+
+    $.ajax({
+        url: "/exam/list/api/",
+        method: "GET",
+        success: function(data) {
+            const content_divs = document.getElementsByClassName("report-content");
+            for(let i = 0; i < data['data'].length && i < 10; ++i) {
+                content_divs[i].innerText = data['data'][i]['exam-name'];
+            }
+        }
+    });
 })
 
 
