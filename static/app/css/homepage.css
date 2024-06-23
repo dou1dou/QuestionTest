@@ -24,7 +24,7 @@
 .wrapper .header .theme .title{
     display: flex;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 2vw;
     padding-left: 2vw;
     flex: 0.5;
 }
@@ -39,7 +39,7 @@
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
+    font-size: 1.2vw;
     flex: 1;
 }
 
@@ -50,7 +50,7 @@
             1px  1px 0 white,
             -1px  1px 0 white;
     color: #17BAF9;
-    font-size: 20px;
+    font-size: 1.3vw;
     flex: 1;
 }
 

@@ -699,3 +699,19 @@ def get_exam_detail(request):
 
 def exam_page(request):
     return render(request, 'Random_combination_tests.html')
+
+
+def teacher_homepage(request):
+    return render(request, 'teacher_homepage.html')
+
+
+def teacher_question(request):
+    return render(request, 'teacher_questions.html')
+
+
+def teacher_personal(request):
+    return render(request, 'teacher_personal.html')
+
+
+def post_question(request):
+    return render(request, 'post_question.html')

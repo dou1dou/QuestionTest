@@ -7,11 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'lib/normalize.css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/personal.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/teacher_style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/teacher_personal.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/confirmLogout.js' %}"></script>
-    <script src="{% static 'lib/echarts.js' %}"></script>
 </head>
 <body>
 <div id="particles-js"></div>
@@ -23,8 +22,8 @@
             </div>
             <div class="icon">
                 <div class="my_homepage">主页</div>
-                <div class="Review">错题回顾</div>
-                <div class="teaching_classes">限时测试</div>
+                <div class="Review">发布问题</div>
+                <div class="teaching_classes">随机组卷</div>
                 <div class="questions" onclick="location.href='/questions'">题库</div>
             </div>
             <div class="chart">
@@ -41,7 +40,7 @@
                 <ul>
                     <li data-content="content1">账户信息</li>
                     <li data-content="content2">试题信息</li>
-                    <li data-content="content3">刷题记录</li>
+                    <li data-content="content3">组卷信息</li>
                     <li data-content="content4">更多设置</li>
                 </ul>
             </div>
@@ -111,11 +110,8 @@
 </div>
 
 </body>
-    <script src='{% static 'app/js/particles.js' %}'></script>
+    <script src='{% static 'app/js/teacher_particles.js' %}'></script>
     <script src="{% static 'app/js/app.js' %}"></script>
-    <script src="{% static 'app/js/personal.js' %}"></script>
+    <script src="{% static 'app/js/teacher_personal.js' %}"></script>
     <script src="{% static 'app/js/avatar.js' %}"></script>
-    <script src="{% static 'app/js/charts.js' %}"></script>
-    <script src="{% static 'app/js/correctness_charts.js' %}"></script>
-    <script src="{% static 'app/js/homework_progress_charts.js' %}"></script>
 </html>

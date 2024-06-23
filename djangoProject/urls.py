@@ -55,4 +55,8 @@ urlpatterns = [
     path('exam/list/api/', views.get_exam_list),
     path('exam/question/api/', views.get_exam_detail),
     path('exam/', views.exam_page),
+    path('teacher_homepage/', views.teacher_homepage),
+    path('teacher_questions/', views.teacher_question),
+    path('teacher_personal/', views.teacher_personal),
+    path('post_question/', views.post_question),
 ]

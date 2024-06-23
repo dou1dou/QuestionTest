@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #17BAF9;
+    background-color: #1d90b0;
 }
 
 .wrapper .header .theme .title{
@@ -61,7 +61,7 @@
             1px -1px 0 white,
             1px  1px 0 white,
             -1px  1px 0 white;
-    color: #17BAF9;
+    color: #1d90b0;
     font-size: 1.3vw;
     flex: 1;
 }
