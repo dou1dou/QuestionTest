@@ -11,10 +11,10 @@ $(document).ready(function() {
 
                 $.each(exams, function(index, exam) {
                     const examItem = $(`
-                        <li data-exam-id="${exam['exam-id']}">
-                            <p>考试编号：${exam['exam-id']}</p>
-                            <p>考试标题：${exam['exam-name']}</p>
-                            <p>考试时间：${exam['exam-time']}分钟</p>
+                        <li class="exam-item" data-exam-id="${exam['exam-id']}">
+                            <p class="exam-id">考试编号：${exam['exam-id']}</p>
+                            <p class="exam-title">考试标题：${exam['exam-name']}</p>
+                            <p class="exam-time">考试时间：${exam['exam-time']}分钟</p>
                         </li>
                     `);
                     examItem.on('click', function() {
@@ -84,7 +84,7 @@ $(document).ready(function() {
     function checkAnswer(questionElement, questionData) {
         const selectedOption = questionElement.find(`input[name="options-${questionData[0]}"]:checked`).val();
         const answerFeedback = questionElement.find('.answer-feedback');
-        const correctAnswer = questionData[5];  // 正确答案的位置应为questionData[5]，请确保数据结构一致
+        const correctAnswer = questionData[5];  // 正确答案的位置应为questionData[5]
 
         if (selectedOption === undefined) {
             alert('请选择答案！');
@@ -104,7 +104,7 @@ $(document).ready(function() {
             data: {
                 question_id: questionData[0],
                 choices: selectedOption,
-                correct: selectedOption === correctAnswer ? 0 : 1
+                correct: selectedOption === correctAnswer ? 1 : 0  // 1 表示正确，0 表示错误
             },
             success: function(data) {
                 console.log('答案提交成功');
