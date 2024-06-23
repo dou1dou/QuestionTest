@@ -739,6 +739,7 @@ def teacher_personal(request):
 def post_question(request):
     return render(request, 'post_question.html')
 
+
 def random_exam(request):
     return render(request, 'random_exam.html')
 
@@ -775,18 +776,13 @@ def set_exam_message(request):
     start_time = datetime.strptime(request.POST.get("start_time"), '%Y-%m-%dT%H:%M')  # 假设前端使用 'YYYY-MM-DDTHH:mm' 格式
     end_time = datetime.strptime(request.POST.get("end_time"), '%Y-%m-%dT%H:%M')
     classroom_id = int(request.POST.get("classroom_id"))
-    exam_id = int(request.POST.get("exam_id"))
     connection = None
     cursor = None
-
 
     try:
         connection = DBUtil.get_connection("question_pool")
         cursor = connection.cursor()
-        if exam_id is None:
-            return JsonResponse({'err': 'please try with POST method!'})
-        else:
-            cursor.execute("insert into exam (exam_name, publisher, exam_time, start_time, end_time, classroom_id, exam_id) values (%s, %s, %s, %s, %s, %s, %s)" , (exam_name, publisher, exam_time, start_time, end_time, classroom_id, exam_id))
+        cursor.execute("insert into exam (exam_name, publisher, exam_time, start_time, end_time, classroom_id) values (%s, %s, %s, %s, %s, %s)" , (exam_name, publisher, exam_time, start_time, end_time, classroom_id))
         connection.commit()
         return JsonResponse({'success': 'add success'})
     except Exception as e:
@@ -798,6 +794,7 @@ def set_exam_message(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
 
 @csrf_exempt
 def commit_exam_questions(request):
@@ -826,7 +823,6 @@ def commit_exam_questions(request):
             connection.close()
         if cursor is not None:
             cursor.close()
-
 
 
 def admin(request):

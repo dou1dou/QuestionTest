@@ -2,14 +2,7 @@ $(document).ready(function () {
   $("#submitButton").click(function (event) {
     event.preventDefault();
 
-    function generateExamId() {
-      const timestamp = new Date().getTime();
-      const random = Math.floor(Math.random() * 10000);
-      return timestamp + "" + random;
-    }
-
-    let exam_id = generateExamId();
-    let formData = $("#examForm").serialize() + "&exam_id=" + encodeURIComponent(exam_id);
+    let formData = $("#examForm").serialize();
 
     $.ajax({
       type: "POST",
@@ -56,13 +49,14 @@ $(document).ready(function () {
               const questionElement = $('<li></li>'); // 创建一个新的列表项
 
               // 添加问题描述（这里假设questionData[0]是问题描述）
-              questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[0]}</p>`);
+              // questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[0]}</p>`);
 
               // 假设questionData[1]到questionData[4]是选项，questionData[5]是答案
               for (let i = 0; i < 5; ++i) {
                 if (i === 0) {
                   questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[i + 1]}</p>`);
                 } else if (questionData[i + 1] !== null) {
+                  const isMultipleChoice = questionData[6].length > 1;
                   const choiceElement = $(`
                   <div class="questions-choice-css" style="display: flex">
                     <div class="choice-btn">
@@ -88,7 +82,7 @@ $(document).ready(function () {
       },
       error: function (error) {
         // 处理POST请求失败的情况
-        console.error("Error setting exam:", error);
+        // console.error("Error setting exam:", error);
         alert("设置考试时出错，请稍后再试。");
       }
     });
