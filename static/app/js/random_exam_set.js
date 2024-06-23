@@ -71,6 +71,24 @@ $(document).ready(function () {
 
               // 将问题添加到列表中
               $('#questions ul').append(questionElement);
+                $("#que").click(function (event){
+                  event.preventDefault()
+                  $.ajax({
+                    type: "POST",
+                    url:"/commit_questions/api/",
+                    dataType:"json",
+                    data:{
+                    question_id: parseInt(questionData[0]),
+                    },
+                    success: function(response){
+                      console.log("Questions committed successfully:", response);
+                    },
+                    error: function(error){
+                      console.error("Error committing questions:", error);
+                      alert("提交试题时出错，请稍后再试。");
+                    }
+                  });
+              })
             });
           },
           error: function (error) {

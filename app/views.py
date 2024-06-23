@@ -800,7 +800,6 @@ def set_exam_message(request):
 def commit_exam_questions(request):
     if request.method == 'GET':
         return JsonResponse({'err': 'please try with POST method!'})
-    exam_id = request.POST.get("exam_id")
     question_id = request.POST.get("question_id")
 
     connection = None
@@ -808,10 +807,10 @@ def commit_exam_questions(request):
     try:
         connection = DBUtil.get_connection("question_pool")
         cursor = connection.cursor()
-        if exam_id is None:
+        if question_id is None:
             return JsonResponse({'err': 'please try with POST method!'})
         else:
-            cursor.execute("insert into question_exam values(%s ,%s)", (exam_id, question_id))
+            cursor.execute("insert into question_exam(question_id) values(%s)", (question_id,))
             connection.commit()
             return JsonResponse({'success': 'add success'})
     except Exception as e:
