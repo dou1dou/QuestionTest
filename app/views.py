@@ -208,7 +208,7 @@ def homepage(request):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute("select roleId from users where userName = %s", (cookie,))
+        cursor.execute("select roleId from users where lastLoginCookie = %s", (cookie,))
         role = cursor.fetchall()[0][0]
         if role == 3:
             return render(request, 'homepage.html')
