@@ -852,6 +852,8 @@ def get_solved_various_number(request):
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'java')",
                        (user_name1,))
         res2 = cursor.fetchall()
+        if res2[0][0] == 0:
+            res2[0][0] = 1
         java_value = int(res1[0][0]) / int(res2[0][0])
         user_name2 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
@@ -863,6 +865,8 @@ def get_solved_various_number(request):
                        (user_name1,))
         res2 = cursor.fetchall()
         python_value = int(res1[0][0]) / int(res2[0][0])
+        if res2[0][0] == 0:
+            res2[0][0] = 1
         user_name3 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
@@ -872,6 +876,8 @@ def get_solved_various_number(request):
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
                        (user_name1,))
         res2 = cursor.fetchall()
+        if res2[0][0] == 0:
+            res2[0][0] = 1
         c_value = int(res1[0][0]) / int(res2[0][0])
         return JsonResponse({'java': java_value, 'python': python_value, 'c': c_value})
     except Exception as e:
