@@ -1,13 +1,14 @@
-let java_value, python_value, c_value;
+let j_value, p_value, cl_value;
 
 $(document).ready(function (){
     $.ajax({
         url: "/get_various_progress/api/",
         method: "GET",
         success: function(response){
-            java_value = response['java'];
-            python_value = response['python'];
-            c_value = response['c'];
+            const homework_progress = $(".various_chart_progress");
+            j_value = response['java'];
+            p_value = response['python'];
+            cl_value = response['c'];
 
         const chart_bar = echarts.init(
             document.getElementById('chart_bar'), 'white', {renderer: 'canvas'});
@@ -40,9 +41,9 @@ $(document).ready(function (){
             "name": "完成率",
             "legendHoverLink": true,
             "data": [
-                java_value,
-                python_value,
-                c_value
+                j_value,
+                p_value,
+                cl_value
             ],
             "realtimeSort": false,
             "showBackground": false,
