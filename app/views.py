@@ -907,20 +907,20 @@ def get_various_progress(request):
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'java')",
                        (user_name,))
         res = cursor.fetchall()
-        java_value = int(res[0][0])
-        user_name = res[0][0]
+        j_value = int(res[0][0])
+        user_name1 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
-                       (user_name,))
+                       (user_name1,))
         res = cursor.fetchall()
-        python_value = int(res[0][0])
-        user_name = res[0][0]
+        p_value = int(res[0][0])
+        user_name2 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
-                       (user_name,))
+                       (user_name2,))
         res = cursor.fetchall()
-        c_value = int(res[0][0])
-        return JsonResponse({'java': java_value, 'python': python_value, 'c': c_value})
+        cl_value = int(res[0][0])
+        return JsonResponse({'java': j_value, 'python': p_value, 'c': cl_value})
     except Exception as e:
         print(e)
         return JsonResponse({'info': 'failed'})

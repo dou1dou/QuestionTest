@@ -41,11 +41,9 @@ $(document).ready(function (){
             "type": "radar",
             "name": "\u505a\u9898\u6b63\u786e\u7387",
             "data": [
-                [
-                    java_value,
-                    python_value,
-                    c_value
-                ]
+                java_value,
+                python_value,
+                c_value
             ],
             "label": {
                 "show": false,
