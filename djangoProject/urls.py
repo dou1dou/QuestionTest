@@ -60,4 +60,7 @@ urlpatterns = [
     path('teacher_personal/', views.teacher_personal),
     path('post_question/', views.post_question),
     path('logout/api/', views.logout_api),
+    path('admin/', views.admin),
+    path('get_solved_various_number/api/', views.get_solved_various_number),
+    path('get_various_progress/api/', views.get_various_progress),
 ]

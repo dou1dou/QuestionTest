@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from ._utils import DBUtil, QuestionUtil
+from ._utils import DBUtil, QuestionUtil, RecordQuestUtil
 
 
 # Create your views here.
@@ -208,7 +208,7 @@ def homepage(request):
     try:
         connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
-        cursor.execute("select roleId from users where userName = %s", (cookie,))
+        cursor.execute("select roleId from users where lastLoginCookie = %s", (cookie,))
         role = cursor.fetchall()[0][0]
         if role == 3:
             return render(request, 'homepage.html')
@@ -739,6 +739,7 @@ def post_question(request):
     return render(request, 'post_question.html')
 
 
+
 @csrf_exempt
 def logout_api(request):
     cookie = request.COOKIES.get("login")
@@ -759,3 +760,106 @@ def logout_api(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def admin(request):
+    return render(request, 'admin.html')
+
+
+def get_solved_various_number(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        RecordQuestUtil.update_all_questions()
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        user_name1 = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'java') ",
+                       (user_name1,))
+        res1 = cursor.fetchall()
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'java')",
+                       (user_name1,))
+        res2 = cursor.fetchall()
+        java_value = int(res1[0][0]) / int(res2[0][0])
+        user_name2 = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
+                       (user_name2,))
+        res1 = cursor.fetchall()
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
+                       (user_name1,))
+        res2 = cursor.fetchall()
+        python_value = int(res1[0][0]) / int(res2[0][0])
+        user_name3 = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
+                       (user_name3,))
+        res1 = cursor.fetchall()
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
+                       (user_name1,))
+        res2 = cursor.fetchall()
+        c_value = int(res1[0][0]) / int(res2[0][0])
+        return JsonResponse({'java': java_value, 'python': python_value, 'c': c_value})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+def get_various_progress(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+    try:
+        RecordQuestUtil.update_all_questions()
+        connection = DBUtil.get_connection('question_pool')
+        cursor = connection.cursor()
+        cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
+        res = cursor.fetchall()
+        if len(res) == 0:
+            return JsonResponse({'hasLogin': False})
+        user_name = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'java')",
+                       (user_name,))
+        res = cursor.fetchall()
+        java_value = int(res[0][0])
+        user_name = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
+                       (user_name,))
+        res = cursor.fetchall()
+        python_value = int(res[0][0])
+        user_name = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
+                       (user_name,))
+        res = cursor.fetchall()
+        c_value = int(res[0][0])
+        return JsonResponse({'java': java_value, 'python': python_value, 'c': c_value})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+

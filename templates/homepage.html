@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
     <script src="{% static 'app/js/yiyan.js' %}"></script>
+    <script src="{% static 'lib/echarts.js' %}"></script>
 </head>
 <body>
 <div id="particles-js"></div>
@@ -89,14 +90,20 @@
         <div class="content_right">
             <div class="content_right_top">
                 <p class="top_word">能力分析</p>
+                <div id="chart_capacity" class="various_chart_capacity" style="width: 15vw !important; height: 13vw !important;
+                                margin-left: 2.5vw; margin-top: 1vw"></div>
             </div>
             <div class="content_right_bottom">
-                <p class="bottom_word">讨论</p>
+                <p class="bottom_word">各种刷题进度</p>
+                <div id="chart_bar" class="various_chart_progress" style="width: 15vw !important; height: 13vw !important;
+                                margin-left: 2.5vw; margin-top: 1vw"></div>
             </div>
         </div>
     </div>
 </div>
 </body>
+    <script src="{% static 'app/js/capacityJavaCharts.js' %}"></script>
+    <script src="{% static 'app/js/variousProgressCharts.js' %}"></script>
     <script src='{% static 'app/js/particles.js' %}'></script>
     <script src="{% static 'app/js/app.js' %}"></script>
     <script src="{% static 'app/js/getDate.js' %}"></script>
