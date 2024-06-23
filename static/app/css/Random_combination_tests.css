@@ -82,14 +82,12 @@
     flex-direction: row;
     align-items: stretch;
 }
-
 .wrapper .content .content_left{
     display: flex;
-    align-content: center;
+    flex-direction: column; /* 设置子元素沿竖直方向排列 */
+    align-items: flex-start; /* 子元素在交叉轴上（此处为水平轴）对齐方式为起点对齐 */
 
-    /* height:32vw; 这行被移除以允许高度自适应 */
     overflow-y: auto;
-
     margin-left: 6vw;
     width: 24vw;
     background: white;
@@ -189,6 +187,7 @@
     border-radius: 8px;
     font-size: 1.0vw;
     cursor: pointer;
+
 }
 
 .check-answer:hover {

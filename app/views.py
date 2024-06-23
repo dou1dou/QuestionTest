@@ -653,11 +653,11 @@ def get_exam_list(request):
             return JsonResponse({'hasLogin': False})
         username = res[0][0]
         classroom_id = res[0][1]
-        cursor.execute("select exam_id from exam where classroom_id = %s", (classroom_id,))
+        cursor.execute("SELECT exam_id, exam_name, exam_time FROM exam WHERE classroom_id = %s", (classroom_id,))
         response = {'data': []}
         exams = cursor.fetchall()
         for exam in exams:
-            response['data'].append({'exam-id': exam[0], 'exam-name': exam[1], 'exam-time': exam[3]})
+            response['data'].append({'exam-id': exam[0], 'exam-name': exam[1], 'exam-time': exam[2]})
         return JsonResponse(response)
     except Exception as e:
         print(e)
@@ -672,7 +672,7 @@ def get_exam_list(request):
 def get_exam_detail(request):
     if request.method == 'POST':
         return JsonResponse({'err': 'please try with GET method!'})
-    exam_id = request.POST.get("exam-id")
+    exam_id = request.GET.get("exam-id")
     connection = None
     cursor = None
 
