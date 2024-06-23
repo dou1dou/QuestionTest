@@ -60,6 +60,29 @@ $(document).ready(function (){
             alert("请求失败！")
         }
     });
+
+    $.ajax({
+        url: "/exam/list/api/",
+        method: "GET",
+        success: function(response) {
+            for(let i = 0; i < response['data'].length && i < 6; ++i) {
+                const info_div = document.createElement("div");
+                info_div.className = "exam-info-items";
+                info_div.innerHTML = `
+                    <div style="display: flex; font-size: 1.5vw; align-items: center; margin-top: 1vw">    
+                        <div style="flex: 1; display: flex; justify-content: center;">${response['data'][i]['exam-id']}</div>
+                        <div style="flex: 1; display: flex; justify-content: center;">${response['data'][i]['exam-name']}</div>
+                        <div style="flex: 1; display: flex; justify-content: center;">${response['data'][i]['exam-time']}分钟</div>
+                    </div>
+                    <hr style="margin-top: 1vw; margin-bottom: 1vw">
+                `;
+                $("#content2").append(info_div);
+            }
+        },
+        error: function() {
+
+        }
+    })
 })
 
 function confirmLogout() {
