@@ -34,6 +34,10 @@
     user-select: none;
 }
 
+.wrapper .header .theme .icon .Fill_in_the_blank_questions {
+    flex: 1;
+}
+
 .wrapper .header .theme .icon{
     font-weight: bold;
     display: flex;
@@ -59,7 +63,7 @@
     flex: 1;
 }
 
-.wrapper .header .theme .icon .teaching_classes{
+.wrapper .header .theme .icon .objective_question {
     flex: 1;
 }
 
@@ -93,6 +97,10 @@
     align-items: center;
 }
 
+.wrapper .submit-form form {
+    font-size: 1.2vw;
+}
+
 .wrapper .submit-form .choices {
     display: flex;
     flex-direction: column;
@@ -108,6 +116,37 @@
 .wrapper .submit-form input {
     margin-left: 3vw;
     margin-bottom: 1vw;
+}
+
+.wrapper .submit-form form .choices .choices-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1vw;
+}
+
+.wrapper .submit-form form .choices .choices-checkbox label:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    width: 10vw;
+}
+
+.wrapper .submit-form form .choices .choices-checkbox .choice-checkbox {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1.5vw;
+}
+
+.wrapper .submit-form form .choices .choices-checkbox .choice-checkbox input {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.wrapper .submit-form form .choices .choices-checkbox .choice-checkbox label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1vw;
 }
 
 .wrapper .submit-form button {
