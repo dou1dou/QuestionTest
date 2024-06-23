@@ -59,4 +59,5 @@ urlpatterns = [
     path('teacher_questions/', views.teacher_question),
     path('teacher_personal/', views.teacher_personal),
     path('post_question/', views.post_question),
+    path('logout/api/', views.logout_api),
 ]

@@ -737,3 +737,25 @@ def teacher_personal(request):
 
 def post_question(request):
     return render(request, 'post_question.html')
+
+
+@csrf_exempt
+def logout_api(request):
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("update users set deleted = 1 where lastLoginCookie = %s", (cookie,))
+        connection.commit()
+        return JsonResponse({'logout': True})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'logout': False})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()

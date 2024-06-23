@@ -61,3 +61,21 @@ $(document).ready(function (){
         }
     });
 })
+
+function confirmLogout() {
+    $.ajax({
+        url: "/logout/api/",
+        method: "POST",
+        success: function(response) {
+            if(response['logout']) {
+                alert("注销成功！");
+                window.location.href = "/";
+            } else {
+                alert("数据库繁忙，请稍后再试！");
+            }
+        },
+        error: function() {
+            alert("网络异常，请重试！");
+        }
+    })
+}
