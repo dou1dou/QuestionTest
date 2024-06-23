@@ -60,6 +60,9 @@ urlpatterns = [
     path('teacher_personal/', views.teacher_personal),
     path('post_question/', views.post_question),
     path('logout/api/', views.logout_api),
+    path('teacher/set_exam/api/', views.set_exam_message),
+    path('teacher/set_exam/', views.random_exam),
+    path('commit_questions/api', views.commit_exam_questions)
     path('admin/', views.admin),
     path('get_solved_various_number/api/', views.get_solved_various_number),
     path('get_various_progress/api/', views.get_various_progress),

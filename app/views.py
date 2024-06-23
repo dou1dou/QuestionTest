@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from datetime import datetime
 
 from ._utils import DBUtil, QuestionUtil, RecordQuestUtil
 
@@ -635,7 +636,7 @@ def get_mistakes(request):
 @csrf_exempt
 def del_mistakes(request):
     if request.method == 'GET':
-        return JsonResponse({'err': 'please try with GET method!'})
+        return JsonResponse({'err': 'please try with POST method!'})
     question_id = request.POST.get("question_id")
     cookie = request.COOKIES.get("login")
     connection = None
@@ -738,6 +739,8 @@ def teacher_personal(request):
 def post_question(request):
     return render(request, 'post_question.html')
 
+def random_exam(request):
+    return render(request, 'random_exam.html')
 
 
 @csrf_exempt
@@ -760,6 +763,70 @@ def logout_api(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+@csrf_exempt
+def set_exam_message(request):
+    if request.method == 'GET':
+        return JsonResponse({'err': 'please try with POST method!'})
+    exam_name = request.POST.get("exam_name")
+    publisher = request.POST.get("publisher")
+    exam_time = int(request.POST.get("exam_time"))
+    start_time = datetime.strptime(request.POST.get("start_time"), '%Y-%m-%dT%H:%M')  # 假设前端使用 'YYYY-MM-DDTHH:mm' 格式
+    end_time = datetime.strptime(request.POST.get("end_time"), '%Y-%m-%dT%H:%M')
+    classroom_id = int(request.POST.get("classroom_id"))
+    exam_id = int(request.POST.get("exam_id"))
+    connection = None
+    cursor = None
+
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        if exam_id is None:
+            return JsonResponse({'err': 'please try with POST method!'})
+        else:
+            cursor.execute("insert into exam (exam_name, publisher, exam_time, start_time, end_time, classroom_id, exam_id) values (%s, %s, %s, %s, %s, %s, %s)" , (exam_name, publisher, exam_time, start_time, end_time, classroom_id, exam_id))
+        connection.commit()
+        return JsonResponse({'success': 'add success'})
+    except Exception as e:
+        print(f"Error executing SQL query: {e}")
+        return JsonResponse({'err': str(e)})
+
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+@csrf_exempt
+def commit_exam_questions(request):
+    if request.method == 'GET':
+        return JsonResponse({'err': 'please try with POST method!'})
+    exam_id = request.POST.get("exam_id")
+    question_id = request.POST.get("question_id")
+
+    connection = None
+    cursor = None
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        if exam_id is None:
+            return JsonResponse({'err': 'please try with POST method!'})
+        else:
+            cursor.execute("insert into question_exam values(%s ,%s)", (exam_id, question_id))
+            connection.commit()
+            return JsonResponse({'success': 'add success'})
+    except Exception as e:
+            print(f"Error executing SQL query: {e}")
+            return JsonResponse({'err': str(e)})
+
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
 
 
 def admin(request):
