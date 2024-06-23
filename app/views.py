@@ -201,7 +201,29 @@ def question_post(request):
 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    cookie = request.COOKIES.get('login')
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection('user_pool')
+        cursor = connection.cursor()
+        cursor.execute("select roleId from users where userName = %s", (cookie,))
+        role = cursor.fetchall()[0][0]
+        if role == 3:
+            return render(request, 'homepage.html')
+        elif role == 2:
+            return render(request, 'teacher_homepage.html')
+        elif role == 1:
+            return render(request, 'admin.html')
+    except Exception as e:
+        print(e)
+        return render(request, 'homepage.html')
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
 
 
 def get_personal_info(request):
