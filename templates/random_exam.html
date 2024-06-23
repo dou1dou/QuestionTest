@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'lib/normalize.css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'lib/@fortawesome/fontawesome-free/css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/teacher_homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/teacher_random_exams.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/teacher_style.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/teacher_set_exam.css' %}">
     <script src="{% static 'app/js/jquery-3.7.1.js' %}"></script>
@@ -22,13 +22,13 @@
                 <div class="title_text">试题测试系统</div>
             </div>
             <div class="icon">
-                <div class="my_homepage">主页</div>
-                <div class="recommend">发布问题</div>
-                <div class="objective_question">随机组卷</div>
-                <div class="Fill_in_the_blank_questions">题库</div>
+                <div class="my_homepage" onclick="location.href= '/teacher_homepage/'">主页</div>
+                <div class="recommend" onclick="location.href='/post_question/'">发布问题</div>
+                <div class="objective_question" onclick="location.href= '/teacher/set_exam/'">随机组卷</div>
+                <div class="Fill_in_the_blank_questions" onclick="location.href='/teacher_questions/'">题库</div>
             </div>
             <div class="chart">
-                <i class="far fa-user-circle"></i>
+                <i class="far fa-user-circle" onclick="location.href='/teacher_personal/'"></i>
             </div>
         </div>
         <div class="body">
