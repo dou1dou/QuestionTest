@@ -84,7 +84,7 @@ $(document).ready(function() {
     function checkAnswer(questionElement, questionData) {
         const selectedOption = questionElement.find(`input[name="options-${questionData[0]}"]:checked`).val();
         const answerFeedback = questionElement.find('.answer-feedback');
-        const correctAnswer = questionData[5];  // 正确答案的位置应为questionData[5]
+        const correctAnswer = questionData[6];  // 正确答案的位置应为questionData[5]
 
         if (selectedOption === undefined) {
             alert('请选择答案！');

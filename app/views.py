@@ -684,7 +684,7 @@ def get_exam_detail(request):
         question_list = []
         for exam in res:
             cursor.execute("select * from objective_questions where Objective_question_id = %s", (exam[0],))
-            question = cursor.fetchall()[0][0:6]
+            question = cursor.fetchall()[0][0:7]
             question_list.append(list(question))
         return JsonResponse({'data': question_list})
     except Exception as e:
