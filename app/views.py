@@ -829,6 +829,7 @@ def admin(request):
 
 
 def get_solved_various_number(request):
+    __import__("time").sleep(1)
     if request.method == 'POST':
         return JsonResponse({'err': 'Please try with GET method!'})
     cookie = request.COOKIES.get('login')
@@ -842,37 +843,35 @@ def get_solved_various_number(request):
         res = cursor.fetchall()
         if len(res) == 0:
             return JsonResponse({'hasLogin': False})
-        user_name1 = res[0][0]
+        username = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'java') ",
-                       (user_name1,))
+                       (username,))
         res1 = cursor.fetchall()
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'java')",
-                       (user_name1,))
+                       (username,))
         res2 = cursor.fetchall()
         java_value = int(res1[0][0]) / int(res2[0][0]) if res2[0][0] != 0 else int(res1[0][0])
-        user_name2 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
-                       (user_name2,))
+                       (username,))
         res1 = cursor.fetchall()
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
-                       (user_name1,))
+                       (username,))
         res2 = cursor.fetchall()
         if res2[0][0] == 0:
             python_value = int(res1[0][0]) / 1
         else:
             python_value = int(res1[0][0]) / int(res2[0][0])
-        user_name3 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
-                       (user_name3,))
+                       (username,))
         res1 = cursor.fetchall()
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
-                       (user_name1,))
+                       (username,))
         res2 = cursor.fetchall()
         if res2[0][0] == 0:
             c_value = int(res1[0][0]) / 1
@@ -897,7 +896,7 @@ def get_various_progress(request):
     cursor = None
     try:
         RecordQuestUtil.update_all_questions()
-        connection = DBUtil.get_connection('question_pool')
+        connection = DBUtil.get_connection('user_pool')
         cursor = connection.cursor()
         cursor.execute("select userName from users where lastLoginCookie = %s and deleted = 0", (cookie,))
         res = cursor.fetchall()
@@ -912,13 +911,13 @@ def get_various_progress(request):
         user_name1 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
-                       (user_name1,))
+                       (user_name,))
         res = cursor.fetchall()
         p_value = int(res[0][0])
         user_name2 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and question_id in"
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
-                       (user_name2,))
+                       (user_name,))
         res = cursor.fetchall()
         cl_value = int(res[0][0])
         return JsonResponse({'java': j_value, 'python': p_value, 'c': cl_value})
