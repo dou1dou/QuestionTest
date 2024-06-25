@@ -241,4 +241,3 @@ update users set classroom = 1 where userName = 'student01';
 update users set classroom = 1 where userName = 'student02';
 update users set classroom = 2 where userName = 'student03';
 
-insert into homework (question_id, publisher, classroom_id, publish_time, cutoff_time) values (1, 'teacher01', 1, '2024-06-18 17:17:11', '2024-06-24 17:17:11');
