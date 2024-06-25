@@ -853,6 +853,10 @@ def get_solved_various_number(request):
                        (username,))
         res2 = cursor.fetchall()
         java_value = int(res1[0][0]) / int(res2[0][0]) if res2[0][0] != 0 else int(res1[0][0])
+        if res2[0][0] is None:
+            res2[0][0] = 1
+        java_value = int(res1[0][0]) / int(res2[0][0])
+        user_name2 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'python')",
                        (username,))
@@ -865,6 +869,10 @@ def get_solved_various_number(request):
             python_value = int(res1[0][0]) / 1
         else:
             python_value = int(res1[0][0]) / int(res2[0][0])
+        python_value = int(res1[0][0]) / int(res2[0][0])
+        if res2[0][0] is None:
+            res2[0][0] = 1
+        user_name3 = res[0][0]
         cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in "
                        "(select Objective_question_id from objective_questions where Knowledge_points = 'c语言')",
                        (username,))
