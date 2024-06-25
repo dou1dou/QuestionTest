@@ -66,4 +66,6 @@ urlpatterns = [
     path('admin/', views.admin),
     path('get_solved_various_number/api/', views.get_solved_various_number),
     path('get_various_progress/api/', views.get_various_progress),
+    path('info/question/number/api/', views.get_question_number_by_difficulty),
+    path('info/question/rate/api/', views.get_correct_rate_by_difficulty),
 ]

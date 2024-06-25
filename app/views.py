@@ -930,3 +930,34 @@ def get_various_progress(request):
         if cursor is not None:
             cursor.close()
 
+
+def get_correct_rate_by_difficulty(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get("login")
+    difficulty = request.GET.get('difficulty')
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select count(*) from practice_record where username = %s and pass = 0 and question_id in"
+                       "(select Objective_question_id from objective_questions where Difficulty = %s)",
+                       (difficulty,))
+        res = cursor.fetchall()
+        solved_q = res[0][0]
+        cursor.execute("select count(*) from practice_record where username = %s and question_id in"
+                       "(select Objective_question_id from objective_questions where Difficulty = %s)",
+                       (difficulty,))
+        res = cursor.fetchall()
+        all_q = res[0][0]
+        return JsonResponse({'solved': solved_q, 'all': all_q})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
