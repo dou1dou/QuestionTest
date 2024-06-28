@@ -969,3 +969,51 @@ def get_correct_rate_by_difficulty(request):
             connection.close()
         if cursor is not None:
             cursor.close()
+
+
+def deleted_user(request):
+    if request.method == 'POST':
+        return JsonResponse({'err': 'Please try with GET method!'})
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("select username from users where deleted = 1")
+        res = cursor.fetchall()
+        users = [r[0] for r in res]
+        return JsonResponse({'user': users})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()
+
+
+@csrf_exempt
+def delete_user(request):
+    if request.method == 'GET':
+        return JsonResponse({'err': 'Please try with POST method!'})
+    cookie = request.COOKIES.get("login")
+    connection = None
+    cursor = None
+
+    try:
+        connection = DBUtil.get_connection("question_pool")
+        cursor = connection.cursor()
+        cursor.execute("delete from users where deleted = 1")
+        connection.commit()
+        return JsonResponse({'user': 'deleted successfully!'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'info': 'failed'})
+    finally:
+        if connection is not None:
+            connection.close()
+        if cursor is not None:
+            cursor.close()

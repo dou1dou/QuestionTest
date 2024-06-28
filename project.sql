@@ -89,7 +89,7 @@ create table practice_record
     constraint practice_record_objective_questions_Objective_question_id_fk
         foreign key (question_id) references objective_questions (Objective_question_id),
     constraint practice_record_users_userName_fk
-        foreign key (username) references users (userName)
+        foreign key (username) references users (userName) on delete cascade
 )
     comment '刷题记录';
 

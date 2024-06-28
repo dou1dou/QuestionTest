@@ -54,10 +54,11 @@
 }
 
 .wrapper .center .logout{
-    margin-bottom: 18vw;
+    flex: 1;
 }
 
 .wrapper .center button{
     font-size: 1.5vw;
     border-radius: 0.6vw;
+    margin-bottom: 1vw;
 }

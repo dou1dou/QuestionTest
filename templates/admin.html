@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -23,11 +24,13 @@
     <div class="center">
         <div class="background">
             <div class="logout">logout</div>
-            <button>全部注销</button>
+            <div id="deleted_user" style="flex: 1;"></div>
+            <button id="Button">全部注销</button>
         </div>
     </div>
 </div>
 </body>
     <script src='{% static 'app/js/admin_particles.js' %}'></script>
     <script src="{% static 'app/js/app.js' %}"></script>
+    <script src="{% static 'app/js/admin.js' %}"></script>
 </html>

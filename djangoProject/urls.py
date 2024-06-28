@@ -68,4 +68,6 @@ urlpatterns = [
     path('get_various_progress/api/', views.get_various_progress),
     path('info/question/number/api/', views.get_question_number_by_difficulty),
     path('info/question/rate/api/', views.get_correct_rate_by_difficulty),
+    path('deleted_user/api/', views.deleted_user),
+    path('delete_user/api/', views.delete_user),
 ]
