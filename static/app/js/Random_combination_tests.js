@@ -45,7 +45,7 @@ $(document).ready(function() {
                         <li>
                             <p class="questions-desc-css">${index + 1}、${questionData[1]}</p>
                             ${generateChoiceElements(questionData).join('')}
-                            <button class="check-answer" style="display: none;">提交</button>
+                            <button class="check-answer">提交</button>
                             <p class="answer-feedback"></p>
                         </li>
                     `);
@@ -69,11 +69,12 @@ $(document).ready(function() {
 
     function generateChoiceElements(questionData) {
         const choices = ['A', 'B', 'C', 'D'];
+        const isMultipleChoice = questionData[6].length > 1; // Assuming the correct answers are in questionData[6]
         return choices.map((choice, i) => {
             return questionData[i + 2] ? `
                 <div class="questions-choice-css" style="display: flex">
                     <div class="choice-btn">
-                        <input type="radio" id="option${i + 1}" name="options-${questionData[0]}" value="${choice}">
+                        <input type="${isMultipleChoice ? 'checkbox' : 'radio'}" id="option${i + 1}" name="options-${questionData[0]}" value="${choice}">
                     </div>
                     <div class="choice-content">${questionData[i + 2]}</div>
                 </div>
@@ -82,16 +83,20 @@ $(document).ready(function() {
     }
 
     function checkAnswer(questionElement, questionData) {
-        const selectedOption = questionElement.find(`input[name="options-${questionData[0]}"]:checked`).val();
+        const selectedOptions = questionElement.find(`input[name="options-${questionData[0]}"]:checked`).map(function() {
+            return $(this).val();
+        }).get();
         const answerFeedback = questionElement.find('.answer-feedback');
-        const correctAnswer = questionData[6];  // 正确答案的位置应为questionData[5]
+        const correctAnswer = questionData[6]; // Assuming the correct answers are in questionData[6]
 
-        if (selectedOption === undefined) {
+        if (selectedOptions.length === 0) {
             alert('请选择答案！');
             return;
         }
 
-        if (selectedOption === correctAnswer) {
+        const isAllCorrect = selectedOptions.length === correctAnswer.length && selectedOptions.every(option => correctAnswer.includes(option));
+
+        if (isAllCorrect) {
             answerFeedback.text('答案正确');
         } else {
             answerFeedback.html(`答案错误，正确答案是：<span class="correct-answer">${correctAnswer}</span>`);
@@ -103,8 +108,8 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 question_id: questionData[0],
-                choices: selectedOption,
-                correct: selectedOption === correctAnswer ? 1 : 0  // 1 表示正确，0 表示错误
+                choices: selectedOptions.join(''), // Sending as a concatenated string for multiple-choice
+                correct: isAllCorrect ? 1 : 0 // 1 means correct, 0 means incorrect
             },
             success: function(data) {
                 console.log('答案提交成功');
@@ -148,4 +153,5 @@ $(document).ready(function() {
     $(".chart").click(function() {
         window.location.href = "/personal/";
     });
+
 });
