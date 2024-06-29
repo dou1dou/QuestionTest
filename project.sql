@@ -186,7 +186,7 @@ create trigger sync_update_student_homework after insert on homework for each ro
 drop table if exists exam;
 create table exam
 (
-    exam_id      bigint comment '考试编号'
+    exam_id      int comment '考试编号' auto_increment
         primary key,
     exam_name    varchar(32)     not null comment '考试名称',
     publisher    varchar(32)     null comment '考试发布人',
@@ -205,7 +205,7 @@ drop table if exists question_exam;
 create table question_exam
 (
     question_id int null comment '考试题目编号',
-    exam_id     bigint null comment '对应考试编号' auto_increment,
+    exam_id     int null comment '对应考试编号',
     constraint question_exam_exam_exam_id_fk
         foreign key (exam_id) references exam (exam_id),
     constraint question_exam_objective_questions_Objective_question_id_fk
