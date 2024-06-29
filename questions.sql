@@ -1,3 +1,4 @@
+use question_test;
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (1, '在 Python 中，下面哪个函数可以用于将一个字符串转换为大写？', 'upper()', 'lower()', 'capitalize()', 'title()', 'A', 'python', '略', null);
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (2, '在 Python 中，下面哪个方法可以用于对列表元素进行排序？', 'sorted()', 'sort()', 'reverse()', 'index()', 'B', 'python', '略', null);
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (3, '在 Python 中，下面哪个运算符可以用于检查两个值是否不相等？', '==', '!=', '<>', '><', 'B', 'python', '略', null);
@@ -617,14 +618,14 @@ INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, Cho
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (597, '下列哪种运算符的结合顺序是从右向左？', '++', '&&', '/', '?', 'D', 'c语言', '略', null);
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (598, '	下列程序的输出结果是什么？
 	#include<stdio.h>
-	int main(){ 
+	int main(){
 	    int a =10, b =20;
 	    if(a ==10) {
 	        int c = a + b;
-	        printf("c = %d\\n", c); 
+	        printf("c = %d\\n", c);
 	    }
 	    printf("c = %d\\n", c);
-	    return0; 
+	    return0;
 	}', 'c = 30，c = 0 B. c = 30', 'c = 30，编译出错', '编译出错，c = 0', '编译出错，未定义标识符c', 'D', 'c语言', '略', null);
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (599, '下列关于函数声明的说法中，正确的是？', '函数声明必须包括函数体', '函数声明不可以省略参数名', '函数声明必须放在主函数前面', '函数声明只能写在头文件中', 'C', 'c语言', '略', null);
 INSERT INTO objective_questions(Objective_question_id, Description, ChoiceA, ChoiceB, ChoiceC, ChoiceD, Answer, Knowledge_points, Parse, Difficulty) VALUES (600, '	下列代码中，输出的结果是什么？
