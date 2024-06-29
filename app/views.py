@@ -782,9 +782,13 @@ def set_exam_message(request):
     try:
         connection = DBUtil.get_connection("question_pool")
         cursor = connection.cursor()
-        cursor.execute("insert into exam (exam_name, publisher, exam_time, start_time, end_time, classroom_id) values (%s, %s, %s, %s, %s, %s)" , (exam_name, publisher, exam_time, start_time, end_time, classroom_id))
+        cursor.execute("insert into exam (exam_name, publisher, exam_time, start_time, end_time, classroom_id) "
+                       "values (%s, %s, %s, %s, %s, %s)",
+                       (exam_name, publisher, exam_time, start_time, end_time, classroom_id))
         connection.commit()
-        return JsonResponse({'success': 'add success'})
+        cursor.execute("select exam_id from exam where exam_name = %s", (exam_name,))
+        exam_id = cursor.fetchall()[0][0]
+        return JsonResponse({'success': 'add success', 'exam-id': exam_id})
     except Exception as e:
         print(f"Error executing SQL query: {e}")
         return JsonResponse({'err': str(e)})
@@ -801,6 +805,7 @@ def commit_exam_questions(request):
     if request.method == 'GET':
         return JsonResponse({'err': 'please try with POST method!'})
     question_id = request.POST.get("question_id")
+    exam_id = request.POST.get("exam-id")
 
     connection = None
     cursor = None
@@ -810,11 +815,11 @@ def commit_exam_questions(request):
         if question_id is None:
             return JsonResponse({'err': 'please try with POST method!'})
         else:
-            cursor.execute("insert into question_exam(question_id) values(%s)", (question_id,))
+            cursor.execute("insert into question_exam(question_id, exam_id) values (%s, %s)", (question_id, exam_id))
             connection.commit()
             return JsonResponse({'success': 'add success'})
     except Exception as e:
-            print(f"Error executing SQL query: {e}")
+            print(f"Error executing SQL query: {str(e)}")
             return JsonResponse({'err': str(e)})
 
     finally:
