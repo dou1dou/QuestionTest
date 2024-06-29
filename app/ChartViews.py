@@ -13,7 +13,6 @@ p = (
         center=["50%", "50%"],
     ).set_global_opts(
         title_opts=TitleOpts(
-            # title="get_sum_chart",
             pos_left="center",
             pos_top="50"
         ),
@@ -24,8 +23,6 @@ p = (
 p.set_series_opts(
     label_opts=opts.LabelOpts(is_show=False)
 )
-
-
 p.render("get_sum_chart.html")
 
 v1 = [[0.1, 0.26, 0.95]]

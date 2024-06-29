@@ -92,7 +92,7 @@
 }
 
 .wrapper .content .content_center{
-    margin-left: 2vw;
+    margin-left: 32vw;
     width: 36vw;
     flex-direction: row;
     align-items: center;
@@ -111,7 +111,7 @@
 }
 
 .wrapper .content .content_center .content_author{
-    padding-left: 26vw;
+    padding-left: 20vw;
     flex-direction: row;
     align-items: center;
     margin-top: 1vw;
