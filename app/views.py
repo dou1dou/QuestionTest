@@ -805,7 +805,7 @@ def commit_exam_questions(request):
     if request.method == 'GET':
         return JsonResponse({'err': 'please try with POST method!'})
     question_id = request.POST.get("question_id")
-    exam_id = request.POST.get("exam-id")
+    exam_id = request.POST.get("exam_id")
 
     connection = None
     cursor = None

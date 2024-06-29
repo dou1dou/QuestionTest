@@ -3,15 +3,16 @@ $(document).ready(function () {
     event.preventDefault();
 
     let formData = $("#examForm").serialize();
+    let examId = 0;
 
     $.ajax({
       type: "POST",
       url: "/teacher/set_exam/api/",
       data: formData,
       dataType: "json",
-      success: function (response) {
+      success: function (data) {
         alert("Exam Set Successfully");
-
+        examId = parseInt(data['exam-id']);
         // 提示用户输入试题数量、类型和难度
         let questionCount = parseInt(prompt("请输入试题数量："));
         if (isNaN(questionCount) || questionCount <= 0) {
@@ -79,6 +80,7 @@ $(document).ready(function () {
                     dataType:"json",
                     data:{
                     question_id: parseInt(questionData[0]),
+                      exam_id: examId,
                     },
                     success: function(response){
                       console.log("Questions committed successfully:", response);
