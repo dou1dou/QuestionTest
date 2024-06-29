@@ -41,18 +41,13 @@ $(document).ready(function () {
           data: {
             limit: questionCount,
             Knowledge_points: questionType,
-            Difficulty: questionDifficulty // 假设服务器API接受这些参数
+            Difficulty: questionDifficulty
           },
           success: function (data) {
-            // 假设data是一个包含试题的数组，每个试题是一个对象
             $('#questions ul').empty(); // 清空现有的试题列表
             $.each(data, function (index, questionData) {
               const questionElement = $('<li></li>'); // 创建一个新的列表项
 
-              // 添加问题描述（这里假设questionData[0]是问题描述）
-              // questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[0]}</p>`);
-
-              // 假设questionData[1]到questionData[4]是选项，questionData[5]是答案
               for (let i = 0; i < 5; ++i) {
                 if (i === 0) {
                   questionElement.append(`<p class="questions-desc-css">${parseInt(index) + 1}、${questionData[i + 1]}</p>`);
